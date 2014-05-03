@@ -50,7 +50,7 @@ def get_detailed_movies(movies):
                 item['trakt_data'] = trakt_get_data(movie['alternate_ids']['imdb'])
                 item['omdb_data'] = omdb_get_data(movie['alternate_ids']['imdb'])
             except Exception as e:
-                return str(e)
+                pass
             item['summary'] = movie['synopsis']
             response.append(item)
         except KeyError:
