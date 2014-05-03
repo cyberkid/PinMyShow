@@ -1,7 +1,8 @@
 
-from flask import Flask, request
+from flask import request
 from flask_restful import Resource
 
+from config import Config
 from pymongo import MongoClient
 import json
 from hashlib import sha256
@@ -11,10 +12,14 @@ class PinMovie(Resource):
     def post(self):
         request_params = request.get_json()
         client = MongoClient()
-        db = client['test_pinmyshow']
-        collection = db['users']
+        db = client[Config.DB_PMS]
+        collection = db['Pins']
         user_pins = collection.find_one({'email':request_params['email']})
-        user_pins['pins'].append(request_params['id'])
+        if user_pins['pins']:
+            user_pins['pins'].append(request_params['imdb_id'])
+        else:
+            user_pins['pins'] = []
+            user_pins['pins'].append(request_params['imdb_id'])
         create_id = collection.save(user_pins)
         return 'Saved'
 
