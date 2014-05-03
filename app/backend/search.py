@@ -2,6 +2,8 @@ from flask import request
 from flask_restful import Resource
 
 from rt import rt_search, rt_boxoffice, rt_upcoming
+from trakt import trakt_get_data
+from omdb import omdb_get_data
 from actions import store_movies
 from config import Config
 
@@ -44,6 +46,8 @@ def get_detailed_movies(movies):
             item['cast'] = movie['abridged_cast']
             try:
                 item['imdb_id'] = movie['alternate_ids']['imdb']
+                item['trakt_data'] = trakt_get_data(movie['alternate_ids']['imdb'])
+                item['omdb_data'] = omdb_get_data(movie['alternate_ids']['imdb'])
             except:
                 pass
             item['summary'] = movie['synopsis']

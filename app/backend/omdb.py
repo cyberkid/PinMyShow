@@ -19,8 +19,12 @@ def db_lookup(imdb_id):
     collection = db[Config.COLLECTION_OMDB]
     return collection.find_one({'imdb_id':imdb_id})
 
-
-
+def omdb_get_data(imdb_id):
+    db_result =  db_lookup(imdb_id)
+    if db_result:
+        return db_result
+    else:
+        return online_lookup(imdb_id)
 
 
 

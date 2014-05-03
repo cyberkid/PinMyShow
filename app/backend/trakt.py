@@ -22,6 +22,15 @@ def db_lookup(imdb_id):
     return collection.find_one({'imdb_id': imdb_id})
 
 
+def trakt_get_data(imdb_id):
+    db_result =  db_lookup(imdb_id)
+    if db_result:
+        return db_result
+    else:
+        return online_lookup(imdb_id)
+
+
+
 
 
 
