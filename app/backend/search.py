@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, Flask
 from flask_restful import Resource
 
 from rt import rt_search, rt_boxoffice, rt_upcoming
@@ -9,8 +9,8 @@ from config import Config
 
 import json
 import requests
-from app.app import app
 
+app = Flask(__name__)
 def get_detailed_movies(movies):
     store_movies(movies, Config.COLLECTION_RT)
     response = []
