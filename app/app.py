@@ -18,7 +18,7 @@ api.add_resource(Trailers, '/trailers/<string:search_string>/')
 api.add_resource(Upcoming, '/upcoming/')
 api.add_resource(BoxOffice, '/boxoffice/')
 api.add_resource(PinMovie, '/pin/')
-api.add_resource(MyPins, '/mypins/<string:email_id>/')
+api.add_resource(MyPins, '/mypins/')
 
 if __name__ == '__main__':
     app.run(debug=True)
