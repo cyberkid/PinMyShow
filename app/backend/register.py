@@ -21,9 +21,9 @@ class RegisterUser(Resource):
         if check.count() > 0:
             status = {'status_code':200, 'message': 'Successfully Updated'}
             http_code = 200
+            collection.update({'email':request_params['email']}, {"$set": request_params }, upsert=False)
         else:
             request_params['join_date'] = datetime.datetime.utcnow()
-        collection.update({'email':request_params['email']}, {"$set": request_params }, upsert=False)
-        #create_id = collection.save(request_params)
+            create_id = collection.save(request_params)
         return status, http_code
 
