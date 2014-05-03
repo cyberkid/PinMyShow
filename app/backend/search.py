@@ -1,21 +1,18 @@
-from flask import request, Flask
+from flask import request
 from flask_restful import Resource
-from flask import logging
 from rt import rt_search, rt_boxoffice, rt_upcoming
 from trakt import trakt_get_data
 from omdb import omdb_get_data
 from actions import store_movies
 from config import Config
 
-import json
-import requests
+
 
 
 def get_detailed_movies(movies):
     response = []
     for movie in movies:
         try:
-            logging.getLogger(__name__).error('FUCK YOU!')
             item = {}
             item['id'] = movie['id']
             item['mpaa_rating'] = movie['mpaa_rating']
@@ -49,7 +46,7 @@ def get_detailed_movies(movies):
                 item['trakt_data'] = trakt_get_data(movie['alternate_ids']['imdb'])
                 item['omdb_data'] = omdb_get_data(movie['alternate_ids']['imdb'])
             except Exception as e:
-                pass
+                return str(e)
             item['summary'] = movie['synopsis']
             response.append(item)
         except KeyError:
@@ -77,7 +74,6 @@ class Search(Resource):
 class BoxOffice(Resource):
     def get(self):
         try:
-
             limit = request.args.get('limit')
             search_result = rt_boxoffice(limit)
             response = {}
