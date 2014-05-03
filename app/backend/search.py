@@ -1,6 +1,6 @@
 from flask import request, Flask
 from flask_restful import Resource
-
+from flask import logging
 from rt import rt_search, rt_boxoffice, rt_upcoming
 from trakt import trakt_get_data
 from omdb import omdb_get_data
@@ -10,13 +10,13 @@ from config import Config
 import json
 import requests
 
-app = Flask(__name__)
+
 def get_detailed_movies(movies):
     store_movies(movies, Config.COLLECTION_RT)
     response = []
     for movie in movies:
         try:
-            app.logger.error('asdasdasdasd')
+            logging.DEBUG('asdsad')
             item = {}
             item['id'] = movie['id']
             item['mpaa_rating'] = movie['mpaa_rating']
@@ -47,8 +47,8 @@ def get_detailed_movies(movies):
             item['cast'] = movie['abridged_cast']
             try:
                 item['imdb_id'] = movie['alternate_ids']['imdb']
-                #item['trakt_data'] = trakt_get_data(movie['alternate_ids']['imdb'])
-                #item['omdb_data'] = omdb_get_data(movie['alternate_ids']['imdb'])
+                item['trakt_data'] = trakt_get_data(movie['alternate_ids']['imdb'])
+                item['omdb_data'] = omdb_get_data(movie['alternate_ids']['imdb'])
             except Exception as e:
                 return str(e)
             item['summary'] = movie['synopsis']

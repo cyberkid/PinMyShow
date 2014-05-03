@@ -23,7 +23,7 @@ api.add_resource(PinMovie, '/pin/')
 api.add_resource(MyPins, '/mypins/<string:email_id>/')
 
 if __name__ == '__main__':
-    handler = RotatingFileHandler('/var/log/pms.log', maxBytes=10000, backupCount=1)
+    handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
     app.logger.addHandler(handler)
     app.run(debug= True)
