@@ -5,8 +5,7 @@ from pymongo import MongoClient
 from config import Config
 from actions import store_one_movie
 
-import requests_cache
-requests_cache.install_cache()
+
 
 
 def online_lookup(imdb_id):
