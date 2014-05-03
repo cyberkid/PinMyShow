@@ -5,6 +5,7 @@ import sys
 
 def import_movie(start, offset):
     for x in range(int(start), int(start + offset)):
+        print "start=", start, "end=", start+offset
         zeroes = 7 - len(str(x))
         extra=""
         for i in range(0, zeroes):
