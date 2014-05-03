@@ -16,7 +16,7 @@ def get_detailed_movies(movies):
     response = []
     for movie in movies:
         try:
-            logging.DEBUG('asdsad')
+            logging.getLogger(__name__).error('FUCK YOU!')
             item = {}
             item['id'] = movie['id']
             item['mpaa_rating'] = movie['mpaa_rating']
