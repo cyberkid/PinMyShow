@@ -7,5 +7,5 @@ def store_movies(mid, movies, collection_name):
     db = client[Config.DB_MOVIES]
     collection = db[collection_name]
     for movie in movies:
-        movie['_id'] = movie[mid]
+        #movie['_id'] = movie[mid]
         collection.save(movie)
