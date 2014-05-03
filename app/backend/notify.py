@@ -1,8 +1,8 @@
 from flask import Flask, request
-from flask.ext import restful
+from flask_restful import Resource
 from pymongo import MongoClient
 
-class Notify(restful.Resource):
+class Notify(Resource):
     def post(self): 
         request_params = request.get_json()
         client = MongoClient()

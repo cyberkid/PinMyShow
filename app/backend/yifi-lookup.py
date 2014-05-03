@@ -1,8 +1,8 @@
 from flask import Flask, request
-from flask.ext import restful
+from flask_restful import Resource
 import requests
 
-class Search(restful.Resource):
+class Search(Resource):
     def get(self,search_string): 
         UpcomingMovies = []
         AvailableMovies = []

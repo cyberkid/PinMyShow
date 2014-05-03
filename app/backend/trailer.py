@@ -1,11 +1,11 @@
 
 from flask import Flask, request
-from flask.ext import restful
+from flask_restful import Resource
 
 import requests
 from BeautifulSoup import BeautifulSoup
 
-class Trailers(restful.Resource):
+class Trailers(Resource):
     def get(self, search_string):
 	default="/default.jpg"
 	hq="/hqdefault.jpg"

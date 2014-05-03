@@ -1,13 +1,13 @@
 
 from flask import Flask, request
-from flask.ext import restful
+from flask_restful import Resource
 
 from pymongo import MongoClient
 import json
 from hashlib import sha256
 import datetime
 
-class RegisterUser(restful.Resource):
+class RegisterUser(Resource):
     def post(self):
         request_params = request.get_json()
         client = MongoClient()
