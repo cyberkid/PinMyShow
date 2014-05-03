@@ -41,7 +41,8 @@ class MyPins(Resource):
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
         user = collection.find_one({'email':request_params['email']})
-        mypins = []
+        mylist = []
         for pin in user['pins']:
-            mypins.append(get_detailed_movies(rt_movie_info(pin)))
+            mylist.append(rt_movie_info(pin))
+        mypins = get_detailed_movies(mylist)
         return mypins
