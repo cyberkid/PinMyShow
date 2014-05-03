@@ -3,6 +3,9 @@ from trakt import *
 import sys
 
 def import_movie(start, offset):
+    successfile=open("imported",'w')
+    failed_omdb=open("failedOMDB",'a')
+    failed_trakt=open("failedTRAKT",'a')
     for x in range(int(start), int(start)+int(offset)):
         print "start=", start, "end=", int(start)+int(offset)
         zeroes = 7 - len(str(x))
@@ -14,13 +17,17 @@ def import_movie(start, offset):
         try:
             omdb = omdb_get_data(imdb_id)
         except:
+            failed_omdb.write(imdb_id+"\n")
             pass
         try:
             trakt = trakt_get_data(imdb_id)
         except:
+            failed_trakt.write(imdb_id+"\n")
             pass
-        file=open("imported",'w')
         file.write(imdb_id)
-        print omdb, "\n", trakt
+        #print omdb, "\n", trakt
+    successfile.close()
+    failed_omdb.close()
+    failed_trakt.close()
 
 import_movie(sys.argv[1], sys.argv[2])
