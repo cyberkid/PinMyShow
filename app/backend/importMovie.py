@@ -24,7 +24,7 @@ def import_movie(start, offset):
         except:
             failed_trakt.write(imdb_id+"\n")
             pass
-        file.write(imdb_id)
+        successfile.write(imdb_id)
         #print omdb, "\n", trakt
     successfile.close()
     failed_omdb.close()
