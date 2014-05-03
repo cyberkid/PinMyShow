@@ -33,7 +33,7 @@ def omdb_get_data(imdb_id):
         return online_lookup(imdb_id)
     except Exception:
         failed_omdb = open("failed_omdb", "a")
-        failed_omdb.write(imdb_id+"\n")
+        failed_omdb.write(imdb_id + "\n")
         failed_omdb.close()
         print 'OMDB lookup error'
 

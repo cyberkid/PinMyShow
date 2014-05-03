@@ -7,6 +7,7 @@ import requests_cache
 
 requests_cache.install_cache('test_cache', backend='mongodb', expire_after=300)
 
+
 def rt_search(search_string, limit, page):
     API_KEY = Config.API_KEY_RT
     search_url = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?page_limit={0}&page={1}&apikey={2}&q={3}".format(
