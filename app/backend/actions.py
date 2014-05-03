@@ -1,11 +1,11 @@
 from pymongo import MongoClient
+from config import Config
 
-
-def store_movies(movies):
+def store_movies(movies, collection_name):
 
     client = MongoClient()
-    db = client['test_pinmyshow']
-    collection = db['movies']
+    db = client[Config.DB_MOVIES]
+    collection = db[collection_name]
     for movie in movies:
         movie['_id'] = movie['id']
         collection.save(movie)
