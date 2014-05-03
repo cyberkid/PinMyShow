@@ -34,6 +34,9 @@ def trakt_get_data(imdb_id):
             return db_result
         return online_lookup(imdb_id)
     except Exception:
+        failed_trakt = open("failed_trakt", "a")
+        failed_trakt.write(imdb_id+"\n")
+        failed_trakt.close()
         print 'TRAKT lookup error'
 
 

@@ -1,12 +1,11 @@
+import sys
+
 from omdb import *
 from trakt import *
-import sys
 
 
 def import_movie(start, offset):
     successfile = open("imported", 'w')
-    failed_omdb = open("failed_omdb", "a")
-    failed_trakt = open("failed_trakt", "a")
     print "start=", start, "end=", int(start) + int(offset)
     for x in range(int(start), int(start) + int(offset)):
         zeroes = 7 - len(str(x))
@@ -18,18 +17,10 @@ def import_movie(start, offset):
         try:
             omdb = omdb_get_data(imdb_id)
         except:
-            failed_omdb.write(imdb_id + "\n")
-            pass
-        else:
-            failed_omdb.write(imdb_id + "\n")
             pass
         try:
             trakt = trakt_get_data(imdb_id)
         except:
-            failed_trakt.write(imdb_id + "\n")
-            pass
-        else:
-            failed_trakt.write(imdb_id + "\n")
             pass
         successfile.seek(0)
         successfile.truncate()
