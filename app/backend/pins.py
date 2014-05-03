@@ -35,7 +35,7 @@ class PinMovie(Resource):
 
 
 class MyPins(Resource):
-    def get(self):
+    def post(self):
         request_params = request.get_json()
         client = MongoClient()
         db = client[Config.DB_PMS]
