@@ -98,7 +98,8 @@ def get_detailed_movies(movies):
         except KeyError:
             pass
         try:
-            item['tagline'] = tmp['trakt']['tagline']
+            if tmp['trakt']['tagline']:
+                item['tagline'] = tmp['trakt']['tagline']
         except KeyError:
             pass
         try:
