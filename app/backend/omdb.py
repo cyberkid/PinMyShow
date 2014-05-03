@@ -17,7 +17,7 @@ def db_lookup(imdb_id):
     client = MongoClient()
     db = client[Config.DB_MOVIES]
     collection = db[Config.COLLECTION_OMDB]
-    return collection.find_one({'imdb_id':imdb_id})
+    return collection.find_one({'imdbID':imdb_id})
 
 def omdb_get_data(imdb_id):
     db_result =  db_lookup(imdb_id)
