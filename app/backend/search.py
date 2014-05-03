@@ -9,13 +9,14 @@ from config import Config
 
 import json
 import requests
-
+from app.app import app
 
 def get_detailed_movies(movies):
     store_movies(movies, Config.COLLECTION_RT)
     response = []
     for movie in movies:
         try:
+            app.logger.error('asdasdasdasd')
             item = {}
             item['id'] = movie['id']
             item['mpaa_rating'] = movie['mpaa_rating']
