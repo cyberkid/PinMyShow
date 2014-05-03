@@ -1,9 +1,9 @@
 
-from flask import Flask, request
+from flask import request
 from flask_restful import Resource
 
 from pymongo import MongoClient
-import json
+from config import Config
 from hashlib import sha256
 import datetime
 
@@ -13,14 +13,15 @@ class RegisterUser(Resource):
         client = MongoClient()
         status =  {'status_code':201, 'message': 'Successfully Created'}
         http_code = 201
-        db = client['test_pinmyshow']
+        db = client[Config.DB_PMS]
         collection = db['users']
         request_params['_id'] = sha256(request_params['email']).hexdigest()
         request_params['join_date'] = datetime.datetime.utcnow()
         request_params['pins'] = []
         check = collection.find({'email':request_params['email']})
-        if check.count() > 0:    
+        if check.count() > 0:
             status = {'status_code':200, 'message': 'Successfully Updated'}
             http_code = 200
         create_id = collection.save(request_params)
         return status, http_code
+

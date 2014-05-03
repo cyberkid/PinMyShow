@@ -12,8 +12,10 @@ def online_lookup(imdb_id):
     else:
         url = 'http://www.omdbapi.com/?i=tt' + imdb_id
     omdb = json.loads(requests.get(url).content)
-    store_one_movie('imdbID', omdb, Config.COLLECTION_OMDB)
-    return omdb
+    if omdb['Response'] == 'True':
+        store_one_movie('imdbID', omdb, Config.COLLECTION_OMDB)
+        return omdb
+    raise Exception
 
 
 def db_lookup(imdb_id):
@@ -24,11 +26,14 @@ def db_lookup(imdb_id):
 
 
 def omdb_get_data(imdb_id):
-    db_result = db_lookup(imdb_id)
-    if db_result:
-        return db_result
-    else:
+    try:
+        db_result = db_lookup(imdb_id)
+        if db_result:
+            return db_result
         return online_lookup(imdb_id)
+    except Exception:
+        print 'OMDB lookup error'
+
 
 
 
