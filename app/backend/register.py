@@ -1,3 +1,4 @@
+
 from flask import Flask, request
 from flask.ext import restful
 
@@ -16,6 +17,7 @@ class RegisterUser(restful.Resource):
         collection = db['users']
         request_params['_id'] = sha256(request_params['email']).hexdigest()
         request_params['join_date'] = datetime.datetime.utcnow()
+        request_params['pins'] = []
         check = collection.find({'email':request_params['email']})
         if check.count() > 0:    
             status = {'status_code':200, 'message': 'Successfully Updated'}

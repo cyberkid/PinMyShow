@@ -2,18 +2,22 @@ from flask import Flask, request
 from flask.ext import restful
 from backend.register import RegisterUser
 from backend.search import Search
-from backend.notify import Notify
+from backend.search import BoxOffice
+from backend.search import Upcoming
+from backend.trailer import Trailers
+from backend.pins import PinMovie
+from backend.pins import MyPins
+
 app = Flask(__name__)
 api = restful.Api(app)
 
-class HelloWorld(restful.Resource):
-    def post(self):
-        k = request.get_json()
-        return {'hi': k}
-
 api.add_resource(RegisterUser, '/users/')
-api.add_resource(Search, '/search/<string:search_string>')
-api.add_resource(Notify, '/pins/')
+api.add_resource(Search, '/search/<string:search_string>/')
+api.add_resource(Trailers, '/trailers/<string:search_string>/')
+api.add_resource(Upcoming, '/upcoming/')
+api.add_resource(BoxOffice, '/boxoffice/')
+api.add_resource(PinMovie, '/pin/')
+api.add_resource(MyPins, '/mypins/<string:email_id>/')
 
 if __name__ == '__main__':
     app.run(debug= True)
