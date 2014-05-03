@@ -23,7 +23,7 @@ class RegisterUser(Resource):
             http_code = 200
         else:
             request_params['join_date'] = datetime.datetime.utcnow()
-        collection.update({'email':request_params['email']}, { $set : { 'gcm_id' = request_params['gcm_id']} })
+        collection.update({'email':request_params['email']}, {"$set": request_params }, upsert=False)
         #create_id = collection.save(request_params)
         return status, http_code
 
