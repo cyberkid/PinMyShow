@@ -3,6 +3,9 @@ from pymongo import MongoClient
 import json
 from config import Config
 
+import requests_cache
+
+requests_cache.install_cache('test_cache', backend='mongodb', expire_after=300)
 
 def rt_search(search_string, limit, page):
     API_KEY = Config.API_KEY_RT
