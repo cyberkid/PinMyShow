@@ -13,13 +13,13 @@ class PinMovie(Resource):
         request_params = request.get_json()
         client = MongoClient()
         db = client[Config.DB_PMS]
-        collection = db['Pins']
+        collection = db[Config.COLLECTION_USERS]
         user_pins = collection.find_one({'email':request_params['email']})
         if user_pins['pins']:
-            user_pins['pins'].append(request_params['imdb_id'])
+            user_pins['pins'].append(request_params['id'])
         else:
             user_pins['pins'] = []
-            user_pins['pins'].append(request_params['imdb_id'])
+            user_pins['pins'].append(request_params['id'])
         create_id = collection.save(user_pins)
         return 'Saved'
 
