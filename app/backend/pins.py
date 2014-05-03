@@ -20,11 +20,32 @@ class PinMovie(Resource):
         collection = db[Config.COLLECTION_USERS]
         user = collection.find_one({'email':request_params['email']})
         try:
-            if isinstance(request_params['rt_ids'], list):
+            if request_params['is_list'] == 'True':
                 user['pins'] += request_params['rt_ids']
+            elif request_params['rt_id'] not in user['pins']:
+                user['pins'].append(request_params['rt_id'])
+        except KeyError:
+            user['pins'] = []
+            if request_params['is_list'] == 'True':
+                user['pins'] += request_params['rt_id']
             else:
-                if request_params['rt_id'] not in user['pins']:
-                    user['pins'].append(request_params['rt_id'])
+                user['pins'].append(request_params['rt_id'])
+        create_id = collection.save(user)
+        return 'Saved'
+
+
+class UnPin(Resource):
+    def post(self):
+        request_params = request.get_json()
+        client = MongoClient()
+        db = client[Config.DB_PMS]
+        collection = db[Config.COLLECTION_USERS]
+        user = collection.find_one({'email':request_params['email']})
+        try:
+            if request_params['is_list'] == 'True':
+                user['pins'] += request_params['rt_ids']
+            elif request_params['rt_id'] not in user['pins']:
+                user['pins'].append(request_params['rt_id'])
         except KeyError:
             user['pins'] = []
             if request_params['is_list'] == 'True':
