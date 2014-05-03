@@ -1,5 +1,6 @@
 from omdb import *
 from trakt import *
+import sys
 
 
 def importMovie(start, offset):
@@ -8,3 +9,5 @@ def importMovie(start, offset):
         omdb = omdb_get_data(imdb_id)
         trakt = trakt_get_data(imdb_id)
         print omdb, "\n", trakt
+
+importMovie(sys.argv[0],sys.argv[1])
