@@ -17,7 +17,7 @@ class RegisterUser(Resource):
         collection = db['users']
         status['token'] = base64.b64encode(sha1(request_params['email']).hexdigest())
         request_params['_id'] = sha256(request_params['email']).hexdigest()
-        check = collection.find({'email':request_params['email']})
+        check = collection.find_one({'email':request_params['email']})
         if check.count() > 0:
             try:
                 request_params['pins'] = check['pins']
