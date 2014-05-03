@@ -16,10 +16,11 @@ class PinMovie(Resource):
         collection = db[Config.COLLECTION_USERS]
         user_pins = collection.find_one({'email':request_params['email']})
         try:
-            user_pins['pins'].add(request_params['id'])
+            if request_params['id'] not in user_pins['pins']:
+                user_pins['pins'].append(request_params['id'])
         except KeyError:
-            user_pins['pins'] = set()
-            user_pins['pins'].add(request_params['id'])
+            user_pins['pins'] = []
+            user_pins['pins'].append(request_params['id'])
         create_id = collection.save(user_pins)
         return 'Saved'
 
