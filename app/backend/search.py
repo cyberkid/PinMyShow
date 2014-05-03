@@ -46,7 +46,7 @@ def get_detailed_movies(movies):
             item['cast'] = movie['abridged_cast']
             try:
                 item['imdb_id'] = movie['alternate_ids']['imdb']
-                item['trakt_data'] = trakt_get_data(movie['alternate_ids']['imdb'])
+                #item['trakt_data'] = trakt_get_data(movie['alternate_ids']['imdb'])
                 item['omdb_data'] = omdb_get_data(movie['alternate_ids']['imdb'])
             except Exception as e:
                 return str(e)
