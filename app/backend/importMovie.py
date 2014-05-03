@@ -6,8 +6,8 @@ def import_movie(start, offset):
     successfile=open("imported",'w')
     failed_omdb=open("failedOMDB",'a')
     failed_trakt=open("failedTRAKT",'a')
+    print "start=", start, "end=", int(start)+int(offset)
     for x in range(int(start), int(start)+int(offset)):
-        print "start=", start, "end=", int(start)+int(offset)
         zeroes = 7 - len(str(x))
         extra=""
         for i in range(0, zeroes):
