@@ -21,6 +21,7 @@ def import_movie(start, offset):
         except:
             pass
         successfile.seek(0)
+        successfile.truncate()
         successfile.write(imdb_id)
     successfile.close()
 
