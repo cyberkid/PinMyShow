@@ -19,7 +19,10 @@ class RegisterUser(Resource):
         request_params['_id'] = sha256(request_params['email']).hexdigest()
         check = collection.find({'email':request_params['email']})
         if check.count() > 0:
-            request_params['pins'] = check['pins']
+            try:
+                request_params['pins'] = check['pins']
+            except KeyError:
+                pass
             status = {'status_code':200, 'message': 'Successfully Updated'}
             http_code = 200
         else:

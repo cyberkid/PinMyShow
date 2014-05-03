@@ -15,9 +15,9 @@ class PinMovie(Resource):
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
         user_pins = collection.find_one({'email':request_params['email']})
-        if user_pins['pins']:
+        try:
             user_pins['pins'].append(request_params['id'])
-        else:
+        except KeyError:
             user_pins['pins'] = []
             user_pins['pins'].append(request_params['id'])
         create_id = collection.save(user_pins)
