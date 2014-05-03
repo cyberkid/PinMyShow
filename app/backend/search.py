@@ -1,6 +1,6 @@
 
 from flask import request
-from flask.ext import restful
+from flask_restful import Resource
 
 from actions import store_movies
 
@@ -16,8 +16,8 @@ def get_movies(movies):
             item['id'] = movie['id']
             item['mpaa_rating'] = movie['mpaa_rating']
             item['title'] = movie['title']
-	    if movie['runtime'] !="":
-            	item['runtime'] = movie['runtime']
+            if movie['runtime'] !="":
+                item['runtime'] = movie['runtime']
             try:
                 item['rating'] = "{0:.2f}".format(
                     movie['ratings']['critics_score'] *
@@ -54,7 +54,7 @@ def get_movies(movies):
     return response
 
 
-class Search(restful.Resource):
+class Search(Resource):
 
     def get(self, search_string):
         try:
@@ -76,7 +76,7 @@ class Search(restful.Resource):
             return 'Error in Search : ' + str(e), 500
 
 
-class BoxOffice(restful.Resource):
+class BoxOffice(Resource):
 
     def get(self):
         try:
@@ -96,7 +96,7 @@ class BoxOffice(restful.Resource):
             return 'Error in BoxOffice : ' + str(e), 500
 
 
-class Upcoming(restful.Resource):
+class Upcoming(Resource):
 
     def get(self):
         try:
