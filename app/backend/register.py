@@ -17,7 +17,7 @@ class RegisterUser(Resource):
         collection = db[Config.COLLECTION_USERS]
         status['token'] = base64.b64encode(sha1(request_params['email']).hexdigest())
         request_params['_id'] = sha256(request_params['email']).hexdigest()
-        check = collection.find_one({'email':request_params['email']})
+        check = collection.find({'email':request_params['email']})
         if check.count() > 0:
             status = {'status_code':200, 'message': 'Successfully Updated'}
             http_code = 200
