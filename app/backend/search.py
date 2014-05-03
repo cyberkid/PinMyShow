@@ -14,6 +14,7 @@ def get_detailed_movies(movies):
         item = {}
         tmp = {}
         try:
+            item['rt_id'] = movie['id']
             item['imdb_id'] = movie['alternate_ids']['imdb']
             tmp['trakt'] = trakt_get_data(movie['alternate_ids']['imdb'])
             tmp['omdb'] = omdb_get_data(movie['alternate_ids']['imdb'])
@@ -158,3 +159,4 @@ class Upcoming(Resource):
             return response
         except Exception as e:
             return 'Error in UpComing : ' + str(e), 500
+
