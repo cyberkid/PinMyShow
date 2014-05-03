@@ -2,6 +2,7 @@ import sys
 
 from omdb import *
 from trakt import *
+import time
 
 
 def import_movie(start, offset):
@@ -25,6 +26,7 @@ def import_movie(start, offset):
         successfile.seek(0)
         successfile.truncate()
         successfile.write(imdb_id)
+        time.sleep(1)
     successfile.close()
 
 
