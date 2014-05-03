@@ -1,5 +1,6 @@
 import requests
 
+import json
 from pymongo import MongoClient
 from config import Config
 from actions import store_movies
@@ -10,7 +11,7 @@ def online_lookup(imdb_id):
         url = 'http://api.trakt.tv/movie/summary.json/480987b3b15aa0153e6d629f22a5a369/' + imdb_id
     else:
         url = 'http://api.trakt.tv/movie/summary.json/480987b3b15aa0153e6d629f22a5a369/tt' + imdb_id
-    trakt = requests.get(url).json()
+    trakt = json.loads(requests.get(url).content)
     store_movies('imdb_id', trakt, Config.COLLECTION_TRAKT)
     return trakt
 

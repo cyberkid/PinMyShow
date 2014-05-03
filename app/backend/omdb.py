@@ -2,6 +2,7 @@ import requests
 
 from pymongo import MongoClient
 from config import Config
+import json
 from actions import store_movies
 
 
@@ -10,7 +11,7 @@ def online_lookup(imdb_id):
         url = 'http://www.omdbapi.com/?i=' + imdb_id
     else:
         url = 'http://www.omdbapi.com/?i=tt' + imdb_id
-    omdb = requests.get(url).json()
+    omdb = json.loads(requests.get(url).content)
     store_movies('imdbID', omdb, Config.COLLECTION_OMDB)
     return omdb
 
