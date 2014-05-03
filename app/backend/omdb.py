@@ -12,6 +12,7 @@ def online_lookup(imdb_id):
     else:
         url = 'http://www.omdbapi.com/?i=tt' + imdb_id
     omdb = json.loads(requests.get(url).content)
+    print omdb
     store_one_movie('imdbID', omdb, Config.COLLECTION_OMDB)
     return omdb
 
