@@ -4,7 +4,9 @@ import json
 from config import Config
 
 import requests_cache
+
 requests_cache.install_cache()
+
 
 def rt_search(search_string, limit, page):
     API_KEY = Config.API_KEY_RT
