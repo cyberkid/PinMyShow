@@ -1,4 +1,3 @@
-
 class Config(object):
     COLLECTION_TRAKT = 'trakt'
     COLLECTION_OMDB = 'omdb'

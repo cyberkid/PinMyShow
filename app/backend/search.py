@@ -12,7 +12,6 @@ import requests
 
 
 def get_detailed_movies(movies):
-    store_movies(movies, Config.COLLECTION_RT)
     response = []
     for movie in movies:
         try:
@@ -69,6 +68,7 @@ class Search(Resource):
             response['data'] = {}
             response['data']['count'] = search_result['total']
             response['data']['movies'] = get_detailed_movies(search_result['movies'])
+            store_movies('id', search_result['movies'], Config.COLLECTION_RT)
             return response
         except Exception as e:
             return 'Error in Search : ' + str(e), 500
