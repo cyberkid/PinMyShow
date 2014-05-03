@@ -43,5 +43,5 @@ class MyPins(Resource):
         user = collection.find_one({'email':request_params['email']})
         mypins = []
         for pin in user['pins']:
-            mypins.append(get_detailed_movies(rt_movie_info(request_params['rt_id'])))
+            mypins.append(get_detailed_movies(rt_movie_info(pin)))
         return mypins
