@@ -23,7 +23,7 @@ class PinMovie(Resource):
             if request_params['rt_id']:
                 for rt_id in request_params['rt_id']:
                     if rt_id not in user['pins']:
-                        user['pins'].append(rt_id)
+                        user['pins'].append(str(rt_id))
         except KeyError:
             user['pins'] = []
             if request_params['is_list'] == 'True':
