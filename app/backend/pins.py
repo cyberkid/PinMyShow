@@ -31,7 +31,8 @@ class PinMovie(Resource):
             else:
                 user['pins'].append(request_params['rt_id'])
         create_id = collection.save(user)
-        return 'Saved'
+        status = {'status_code':201, 'message': 'Successfully Pinned'}
+        return status, 201
 
 
 class UnPin(Resource):
