@@ -25,7 +25,7 @@ def get_detailed_movies(movies):
         try:
             tmp['trakt'] = trakt_get_data(movie['alternate_ids']['imdb'])
         except Exception:
-            failed_omdb = open("/home/ubuntu/failed_TRAKT", "a")
+            pass
         try:
             item['mpaa_rating'] = movie['mpaa_rating']
         except KeyError:
