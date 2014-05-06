@@ -18,9 +18,9 @@ def get_detailed_movies(movies):
             item['imdb_id'] = movie['alternate_ids']['imdb']
             tmp['omdb'] = omdb_get_data(movie['alternate_ids']['imdb'])
         except Exception, e:
-            failed_omdb = open("/home/ubuntu/failed_omdb", "a")
-            failed_omdb.write(str(e) + "\n")
-            failed_omdb.close()
+            #failed_omdb = open("/home/ubuntu/failed_omdb", "a")
+            #failed_omdb.write(str(e) + "\n")
+            #failed_omdb.close()
             print 'OMDB lookup error'
         try:
             tmp['trakt'] = trakt_get_data(movie['alternate_ids']['imdb'])
