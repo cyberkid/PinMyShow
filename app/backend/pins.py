@@ -42,7 +42,7 @@ class UnPin(Resource):
         if request_params['rt_id']:
             for rt_id in request_params['rt_id']:
                 try:
-                    user['pins'].remove(rt_id)
+                    user['pins'].remove(str(rt_id))
                 except ValueError:
                     pass
         status = {'status_code':200, 'message': 'Successfully UnPinned'}
