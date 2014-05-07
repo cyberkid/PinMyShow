@@ -17,3 +17,6 @@ def store_one_movie(mid, movie, collection_name):
     collection = db[collection_name]
     movie['_id'] = movie[mid]
     collection.save(movie)
+
+
+

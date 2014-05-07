@@ -38,12 +38,11 @@ def rt_upcoming(limit, page):
     return search_result
 
 def rt_movie_info(rt_id):
-    API_KEY = Config.API_KEY_RT
-    search_url = "http://api.rottentomatoes.com/api/public/v1.0/movies/{0}.json?apikey={1}".format(
-        rt_id,
-        API_KEY)
-    search_result = json.loads(requests.get(search_url).content)
-    return search_result
+    client = MongoClient()
+    db = client[Config.DB_MOVIES]
+    collection = db[Config.COLLECTION_MOVIES]
+    return collection.find_one({'rt_id': rt_id})
+
 
 def db_lookup(imdb_id):
     client = MongoClient()
