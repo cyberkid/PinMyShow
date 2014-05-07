@@ -61,4 +61,7 @@ class MyPins(Resource):
         for pin in user['pins']:
             mylist.append(rt_movie_info(pin))
         mypins = get_detailed_movies(mylist)
-        return mypins
+        if mypins:
+            return mypins
+        status = {'status_code':200, 'message': 'Nothing to return'}
+        return status,200
