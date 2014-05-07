@@ -45,6 +45,7 @@ class UnPin(Resource):
                     user['pins'].remove(str(rt_id))
                 except ValueError:
                     pass
+        create_id = collection.save(user)
         status = {'status_code':200, 'message': 'Successfully UnPinned'}
         return status,200
 
