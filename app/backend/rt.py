@@ -42,15 +42,7 @@ def rt_movie_info(rt_id):
     db = client[Config.DB_MOVIES]
     collection = db[Config.COLLECTION_MOVIES]
     local_item = collection.find_one({'rt_id': rt_id})
-    if local_item['imdb_id']:
-        search_result = local_item
-    else:
-        API_KEY = Config.API_KEY_RT
-        search_url = "http://api.rottentomatoes.com/api/public/v1.0/movies/{0}.json?apikey={1}".format(
-            rt_id,
-            API_KEY)
-        search_result = json.loads(requests.get(search_url).content)
-    return search_result
+    return  local_item
 
 def db_lookup(imdb_id):
     client = MongoClient()
