@@ -39,7 +39,12 @@ class UnPin(Resource):
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
         user = collection.find_one({'email':request_params['email']})
-
+        if request_params['rt_id']:
+            for rt_id in request_params['rt_id']:
+                try:
+                    user['pins'].remove(rt_id)
+                except ValueError:
+                    pass
         status = {'status_code':200, 'message': 'Successfully UnPinned'}
         return status,200
 
