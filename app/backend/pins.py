@@ -54,4 +54,5 @@ class MyPins(Resource):
         mylist = []
         for pin in user['pins']:
             mylist.append(rt_movie_info(pin))
-        return mylist
+        mypins = get_detailed_movies(mylist)
+        return mypins
