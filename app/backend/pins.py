@@ -1,4 +1,3 @@
-
 from flask import request
 from flask_restful import Resource
 
@@ -16,7 +15,7 @@ class PinMovie(Resource):
         client = MongoClient()
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
-        user = collection.find_one({'email':request_params['email']})
+        user = collection.find_one({'email': request_params['email']})
         try:
             if request_params['rt_id']:
                 for rt_id in request_params['rt_id']:
@@ -28,7 +27,7 @@ class PinMovie(Resource):
                 if rt_id not in user['pins']:
                     user['pins'].append(str(rt_id))
         create_id = collection.save(user)
-        status = {'status_code':201, 'message': 'Successfully Pinned'}
+        status = {'status_code': 201, 'message': 'Successfully Pinned'}
         return status, 201
 
 
@@ -38,7 +37,7 @@ class UnPin(Resource):
         client = MongoClient()
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
-        user = collection.find_one({'email':request_params['email']})
+        user = collection.find_one({'email': request_params['email']})
         if request_params['rt_id']:
             for rt_id in request_params['rt_id']:
                 try:
@@ -46,8 +45,8 @@ class UnPin(Resource):
                 except ValueError:
                     pass
         create_id = collection.save(user)
-        status = {'status_code':200, 'message': 'Successfully UnPinned'}
-        return status,200
+        status = {'status_code': 200, 'message': 'Successfully UnPinned'}
+        return status, 200
 
 
 class MyPins(Resource):
@@ -56,12 +55,10 @@ class MyPins(Resource):
         client = MongoClient()
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
-        user = collection.find_one({'email':request_params['email']})
+        user = collection.find_one({'email': request_params['email']})
         mylist = []
         for pin in user['pins']:
             mylist.append(rt_movie_info(pin))
         mypins = get_detailed_movies(mylist)
-        if mypins:
-            return mypins
-        status = {'status_code':200, 'message': 'Nothing to return'}
-        return status,200
+
+        return mypins, 200
