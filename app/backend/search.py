@@ -57,26 +57,26 @@ def get_detailed_movies(movies):
                     item['images']['thumbnail'] = movie['posters']['thumbnail']
 
                 if rt_imgage_default in movie['posters']['detailed']:
-                    item['images']['thumbnail'] = pms_image_default
+                    item['images']['medium'] = pms_image_default
                 else:
                     item['images']['medium'] = movie['posters']['detailed']
 
                 if rt_imgage_default in movie['posters']['original']:
-                    item['images']['thumbnail'] = pms_image_default
+                    item['images']['original'] = pms_image_default
                 else:
                     item['images']['original'] = movie['posters']['original']
 
-                if rt_imgage_default in tmp['omdb']['Poster']:
-                    item['images']['thumbnail'] = pms_image_default
-                else:
-                    item['images']['poster'] = tmp['omdb']['Poster']
 
-                if rt_imgage_default in tmp['trakt']['images']['fanart']:
-                    item['images']['thumbnail'] = pms_image_default
-                else:
-                    item['images']['fanart'] = tmp['trakt']['images']['fanart']
+                item['images']['poster'] = tmp['omdb']['Poster']
+                item['images']['fanart'] = tmp['trakt']['images']['fanart']
             except KeyError:
                 pass
+
+            if item['images']['thumbnail'] == None:
+                 item['images']['fanart'] = pms_image_default
+
+            if item['images']['poster'] == None:
+                   item['images']['poster'] = pms_image_default
             try:
                 item['release_dates'] = {}
                 item['release_dates']['theater'] = movie[
