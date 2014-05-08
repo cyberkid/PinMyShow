@@ -9,6 +9,9 @@ from config import Config
 
 
 def get_detailed_movies(movies):
+    rt_imgage_default = "http://images.rottentomatoescdn.com/images/redesign/poster_default.gif"
+    pms_image_default = "http://54.187.114.0/poster_default.jpeg"
+
     response = []
     for movie in movies:
         item = {}
@@ -48,11 +51,30 @@ def get_detailed_movies(movies):
                 pass
             try:
                 item['images'] = {}
-                item['images']['thumbnail'] = movie['posters']['thumbnail']
-                item['images']['medium'] = movie['posters']['detailed']
-                item['images']['original'] = movie['posters']['original']
-                item['images']['poster'] = tmp['omdb']['Poster']
-                item['images']['fanart'] = tmp['trakt']['images']['fanart']
+                if rt_imgage_default in movie['posters']['thumbnail']:
+                    item['images']['thumbnail'] = pms_image_default
+                else:
+                    item['images']['thumbnail'] = movie['posters']['thumbnail']
+
+                if rt_imgage_default in movie['posters']['detailed']:
+                    item['images']['thumbnail'] = pms_image_default
+                else:
+                    item['images']['medium'] = movie['posters']['detailed']
+
+                if rt_imgage_default in movie['posters']['original']:
+                    item['images']['thumbnail'] = pms_image_default
+                else:
+                    item['images']['original'] = movie['posters']['original']
+
+                if rt_imgage_default in tmp['omdb']['Poster']:
+                    item['images']['thumbnail'] = pms_image_default
+                else:
+                    item['images']['poster'] = tmp['omdb']['Poster']
+
+                if rt_imgage_default in tmp['trakt']['images']['fanart']:
+                    item['images']['thumbnail'] = pms_image_default
+                else:
+                    item['images']['fanart'] = tmp['trakt']['images']['fanart']
             except KeyError:
                 pass
             try:
