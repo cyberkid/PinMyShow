@@ -5,7 +5,19 @@ import base64
 from pymongo import MongoClient
 from config import Config
 from hashlib import sha256, sha1
+
+from raven.handlers.logging import SentryHandler
+from raven import Client
+from raven.conf import setup_logging
+import logging
 import datetime
+
+
+
+client = Client('https://c08e468ddcf148d3bed9966345bdb7f4:5c4227f8d4fd4b1e94d01ebe03e29883@app.getsentry.com/23855')
+handler = SentryHandler(client)
+setup_logging(handler)
+logger = logging.getLogger(__name__)
 
 class RegisterUser(Resource):
     def post(self):
@@ -15,6 +27,8 @@ class RegisterUser(Resource):
         http_code = 201
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
+        auth_token=request_params['auth_token']
+        logger.log("auth_token: %s"+auth_token)
         status['token'] = base64.b64encode(sha1(request_params['email']).hexdigest())
         request_params['_id'] = sha256(request_params['email']).hexdigest()
         check = collection.find({'email':request_params['email']})
