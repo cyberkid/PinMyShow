@@ -199,5 +199,6 @@ class Upcoming(Resource):
             response['data']['movies'] = get_detailed_movies(search_result['movies'])
             return response
         except Exception as e:
+            logger.exception(e)
             return 'Error in UpComing : ' + str(e), 500
 
