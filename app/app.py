@@ -6,10 +6,12 @@ from backend.search import BoxOffice
 from backend.search import Upcoming
 from backend.trailer import Trailers
 from backend.pins import PinMovie, MyPins, UnPin
+from raven.contrib.flask import Sentry
 
 
 app = Flask(__name__)
 api = restful.Api(app)
+sentry = Sentry(app,dsn='https://c08e468ddcf148d3bed9966345bdb7f4:5c4227f8d4fd4b1e94d01ebe03e29883@app.getsentry.com/23855')
 
 api.add_resource(RegisterUser, '/users/')
 api.add_resource(Search, '/search/<string:search_string>/')
