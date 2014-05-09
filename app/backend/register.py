@@ -28,7 +28,7 @@ class RegisterUser(Resource):
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
         auth_token=request_params['auth_token']
-        logger.log(0, "Register/Update user: {0}, auth_token:{1}",{request_params['email'],auth_token});
+        logger.warning("Register/Update user: %s, auth_token: %s",request_params['email'],auth_token)
         status['token'] = base64.b64encode(sha1(request_params['email']).hexdigest())
         request_params['_id'] = sha256(request_params['email']).hexdigest()
         check = collection.find({'email':request_params['email']})
