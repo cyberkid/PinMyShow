@@ -7,6 +7,16 @@ from omdb import omdb_get_data
 from actions import store_movies, store_one_movie
 from config import Config
 
+from raven.handlers.logging import SentryHandler
+from raven import Client
+from raven.conf import setup_logging
+import logging
+
+client = Client('https://c08e468ddcf148d3bed9966345bdb7f4:5c4227f8d4fd4b1e94d01ebe03e29883@app.getsentry.com/23855')
+handler = SentryHandler(client)
+setup_logging(handler)
+logger = logging.getLogger(__name__)
+
 
 def get_detailed_movies(movies):
     rt_imgage_default = "http://images.rottentomatoescdn.com/images/redesign/poster_default.gif"
@@ -173,6 +183,7 @@ class BoxOffice(Resource):
             response['data']['count'] = len(movies)
             return response
         except Exception as e:
+            logger.exception(e)
             return 'Error in BoxOffice : ' + str(e), 500
 
 
