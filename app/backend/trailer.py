@@ -1,11 +1,21 @@
 from flask_restful import Resource
 
 import requests
+from flask import request
+from actions import access_token_matches
 from BeautifulSoup import BeautifulSoup
 
 
 class Trailers(Resource):
     def get(self, search_string):
+        email_id=request.args.get('email')
+        access_token=request.args.get('access_token')
+
+        if email_id == None or access_token ==None:
+            return {'status_code':401,'message':'Access Unauthorized'},401
+        elif access_token_matches(email_id,access_token) == False:
+            return {'status_code':401,'message':'Access Unauthorized'},401
+
         default = "/default.jpg"
         hq = "/hqdefault.jpg"
         mq = "/mqdefault.jpg"
