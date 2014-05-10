@@ -57,11 +57,12 @@ class MyPins(Resource):
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
         user = collection.find_one({'email': request_params['email']})
-        mypins = []
+        mylist = []
         for pin in user['pins']:
-            mypins.append(db_lookup_movies(pin))
+            mylist.append(rt_movie_info(pin))
+        mypins = get_detailed_movies(mylist)
         response = {}
         response['data'] = {}
         response['data']['movies'] = mypins
         response['data']['count'] = len(user['pins'])
-        return response, 200
+        return mypins, 200

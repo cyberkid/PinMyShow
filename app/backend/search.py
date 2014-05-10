@@ -29,7 +29,7 @@ def get_detailed_movies(movies):
         try:
             assert movie['alternate_ids']['imdb']
             try:
-                item['rt_id'] = movie['id']
+                item['rt_id'] = str(movie['id'])
                 item['imdb_id'] = movie['alternate_ids']['imdb']
                 tmp['omdb'] = omdb_get_data(movie['alternate_ids']['imdb'])
             except Exception, e:
