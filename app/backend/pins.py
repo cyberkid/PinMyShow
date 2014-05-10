@@ -5,7 +5,7 @@ from config import Config
 from pymongo import MongoClient
 
 from rt import rt_movie_info
-from rt import db_lookup_movies
+from actions import db_lookup_movies
 
 from search import get_detailed_movies
 

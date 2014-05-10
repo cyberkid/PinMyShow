@@ -19,4 +19,11 @@ def store_one_movie(mid, movie, collection_name):
     collection.save(movie)
 
 
+def db_lookup_movies(rt_id):
+    client = MongoClient()
+    db = client[Config.DB_MOVIES]
+    collection = db[Config.COLLECTION_MOVIES]
+    return collection.find_one({'_id': rt_id})
+
+
 
