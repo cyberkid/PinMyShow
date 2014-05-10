@@ -57,7 +57,7 @@ def db_lookup_rt(rt_id):
     client = MongoClient()
     db = client[Config.DB_MOVIES]
     collection=db[Config.COLLECTION_MOVIES]
-    return db.find_one({'_id': rt_id})
+    return collection.find_one({'_id': rt_id})
 
 
 
