@@ -5,7 +5,7 @@ from config import Config
 from pymongo import MongoClient
 
 from rt import rt_movie_info
-from rt import db_lookup_rt
+from rt import db_lookup_movies
 
 from search import get_detailed_movies
 
@@ -59,7 +59,7 @@ class MyPins(Resource):
         user = collection.find_one({'email': request_params['email']})
         mypins = []
         for pin in user['pins']:
-            mypins.append(db_lookup_rt(pin))
+            mypins.append(db_lookup_movies(pin))
         response = {}
         response['data'] = {}
         response['data']['movies'] = mypins

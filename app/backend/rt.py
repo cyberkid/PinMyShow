@@ -53,7 +53,7 @@ def db_lookup(imdb_id):
     collection = db[Config.COLLECTION_OMDB]
     return collection.find_one({'imdb_id': imdb_id})
 
-def db_lookup_rt(rt_id):
+def db_lookup_movies(rt_id):
     client = MongoClient()
     db = client[Config.DB_MOVIES]
     collection=db[Config.COLLECTION_MOVIES]
