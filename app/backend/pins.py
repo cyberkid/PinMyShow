@@ -5,7 +5,7 @@ from config import Config
 from pymongo import MongoClient
 
 from rt import rt_movie_info
-from actions import db_lookup_movies
+from actions import db_lookup_movies,access_token_matches
 
 from search import get_detailed_movies
 
@@ -13,6 +13,14 @@ from search import get_detailed_movies
 class PinMovie(Resource):
     def post(self):
         request_params = request.get_json()
+        email_id=request_params['email']
+        access_token=request_params['access_token']
+
+        if email_id == None or access_token ==None:
+            return {'status_code':401,'message':'Access Unauthorized'},401
+        elif access_token_matches(email_id,access_token) == False:
+            return {'status_code':401,'message':'Access Unauthorized'},401
+
         client = MongoClient()
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
@@ -35,6 +43,14 @@ class PinMovie(Resource):
 class UnPin(Resource):
     def post(self):
         request_params = request.get_json()
+        email_id=request_params['email']
+        access_token=request_params['access_token']
+
+        if email_id == None or access_token ==None:
+            return {'status_code':401,'message':'Access Unauthorized'},401
+        elif access_token_matches(email_id,access_token) == False:
+            return {'status_code':401,'message':'Access Unauthorized'},401
+
         client = MongoClient()
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
@@ -53,6 +69,14 @@ class UnPin(Resource):
 class MyPins(Resource):
     def post(self):
         request_params = request.get_json()
+        email_id=request_params['email']
+        access_token=request_params['access_token']
+
+        if email_id == None or access_token ==None:
+            return {'status_code':401,'message':'Access Unauthorized'},401
+        elif access_token_matches(email_id,access_token) == False:
+            return {'status_code':401,'message':'Access Unauthorized'},401
+
         client = MongoClient()
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
