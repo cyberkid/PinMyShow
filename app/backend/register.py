@@ -31,7 +31,6 @@ class RegisterUser(Resource):
         request_params['_id'] = sha256(request_params['email']).hexdigest()
         check = collection.find({'email':request_params['email']})
         access_token=base64.urlsafe_b64encode(os.urandom(30))
-        status['access_token'] = access_token
         request_params['access_token']=access_token
         if check.count() > 0:
             status = {'status_code':200, 'message': 'Successfully Updated','access_token':access_token}
