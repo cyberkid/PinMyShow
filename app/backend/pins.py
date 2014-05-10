@@ -91,11 +91,18 @@ class MyPins(Resource):
         collection = db[Config.COLLECTION_USERS]
         user = collection.find_one({'email': request_params['email']})
         mylist = []
-        for pin in user['pins']:
-            mylist.append(rt_movie_info(pin))
-        mypins = get_detailed_movies(mylist)
-        response = {}
-        response['data'] = {}
-        response['data']['movies'] = mypins
-        response['data']['count'] = len(user['pins'])
+        try:
+            for pin in user['pins']:
+                mylist.append(rt_movie_info(pin))
+            mypins = get_detailed_movies(mylist)
+            response = {}
+            response['data'] = {}
+            response['data']['movies'] = mypins
+            response['data']['count'] = len(user['pins'])
+        except KeyError:
+            response = {}
+            response['data'] = {}
+            response['data']['movies'] = []
+            response['data']['count'] = 0
+
         return response, 200
