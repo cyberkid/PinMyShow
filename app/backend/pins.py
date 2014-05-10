@@ -64,4 +64,4 @@ class MyPins(Resource):
         response['data'] = {}
         response['data']['movies'] = mypins
         response['data']['count'] = len(user['pins'])
-        return mypins, 200
+        return response, 200
