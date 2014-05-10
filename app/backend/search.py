@@ -168,6 +168,7 @@ class Search(Resource):
             store_movies('id', search_result['movies'], Config.COLLECTION_RT)
             return response
         except Exception as e:
+            logger.exception(e)
             return 'Error in Search : ' + str(e), 500
 
 
@@ -183,7 +184,7 @@ class BoxOffice(Resource):
             response['data']['count'] = len(movies)
             return response
         except Exception as e:
-            # logger.exception(e)
+            logger.exception(e)
             return 'Error in BoxOffice : ' + str(e), 500
 
 
@@ -199,6 +200,6 @@ class Upcoming(Resource):
             response['data']['movies'] = get_detailed_movies(search_result['movies'])
             return response
         except Exception as e:
-            # logger.exception(e)
+            logger.exception(e)
             return 'Error in UpComing : ' + str(e), 500
 
