@@ -160,12 +160,12 @@ class Search(Resource):
         try:
             limit = request.args.get('limit')
             page = request.args.get('page')
-            email_id=request.args.get('email_id')
+            email_id=request.args.get('email')
             access_token=request.args.get('access_token')
 
             if email_id == None or access_token ==None:
                 return {'status_code':401,'message':'Access Unauthorized'},401
-            elif access_token_matches(email_id) == False:
+            elif access_token_matches(email_id,access_token) == False:
                 return {'status_code':401,'message':'Access Unauthorized'},401
 
             search_result = rt_search(search_string, limit, page)
@@ -185,12 +185,12 @@ class BoxOffice(Resource):
         try:
             limit = request.args.get('limit')
             search_result = rt_boxoffice(limit)
-            email_id=request.args.get('email_id')
+            email_id=request.args.get('email')
             access_token=request.args.get('access_token')
 
             if email_id == None or access_token ==None:
                 return {'status_code':401,'message':'Access Unauthorized'},401
-            elif access_token_matches(email_id) == False:
+            elif access_token_matches(email_id,access_token) == False:
                 return {'status_code':401,'message':'Access Unauthorized'},401
 
             response = {}
@@ -209,12 +209,12 @@ class Upcoming(Resource):
         try:
             limit = request.args.get('limit')
             page = request.args.get('page')
-            email_id=request.args.get('email_id')
+            email_id=request.args.get('email')
             access_token=request.args.get('access_token')
 
             if email_id == None or access_token ==None:
                 return {'status_code':401,'message':'Access Unauthorized'},401
-            elif access_token_matches(email_id) == False:
+            elif access_token_matches(email_id,access_token) == False:
                 return {'status_code':401,'message':'Access Unauthorized'},401
 
             search_result = rt_upcoming(limit, page)
