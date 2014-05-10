@@ -31,10 +31,10 @@ class RegisterUser(Resource):
         status['token'] = base64.b64encode(sha1(request_params['email']).hexdigest())
         request_params['_id'] = sha256(request_params['email']).hexdigest()
         check = collection.find({'email':request_params['email']})
-        acccess_token=base64.urlsafe_b64encode(os.urandom(30))
-        request_params['access_token']=acccess_token
+        access_token=base64.urlsafe_b64encode(os.urandom(30))
+        request_params['access_token']=access_token
         if check.count() > 0:
-            status = {'status_code':200, 'message': 'Successfully Updated'}
+            status = {'status_code':200, 'message': 'Successfully Updated','access_token':access_token}
             http_code = 200
             collection.update({'email':request_params['email']}, {"$set": request_params }, upsert=False)
         else:
