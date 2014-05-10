@@ -13,8 +13,6 @@ from raven.conf import setup_logging
 import logging
 import datetime
 
-
-
 client = Client('https://c08e468ddcf148d3bed9966345bdb7f4:5c4227f8d4fd4b1e94d01ebe03e29883@app.getsentry.com/23855')
 handler = SentryHandler(client)
 setup_logging(handler)
