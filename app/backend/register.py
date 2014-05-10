@@ -28,10 +28,10 @@ class RegisterUser(Resource):
         collection = db[Config.COLLECTION_USERS]
         auth_token=request_params['auth_token']
         logger.warning("Register/Update user: %s, auth_token: %s",request_params['email'],auth_token)
-        status['token'] = base64.b64encode(sha1(request_params['email']).hexdigest())
         request_params['_id'] = sha256(request_params['email']).hexdigest()
         check = collection.find({'email':request_params['email']})
         access_token=base64.urlsafe_b64encode(os.urandom(30))
+        status['access_token'] = access_token
         request_params['access_token']=access_token
         if check.count() > 0:
             status = {'status_code':200, 'message': 'Successfully Updated','access_token':access_token}
