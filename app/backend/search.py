@@ -4,7 +4,7 @@ from flask_restful import Resource
 from rt import rt_search, rt_boxoffice, rt_upcoming
 from trakt import trakt_get_data
 from omdb import omdb_get_data
-from actions import store_movies, store_one_movie
+from actions import store_movies, store_one_movie,access_token_matches
 from config import Config
 
 from raven.handlers.logging import SentryHandler
@@ -160,6 +160,14 @@ class Search(Resource):
         try:
             limit = request.args.get('limit')
             page = request.args.get('page')
+            email_id=request.args.get('email_id')
+            access_token=request.args.get('access_token')
+
+            if email_id == None or access_token ==None:
+                return "Access Unauthorized",401
+            elif access_token_matches(email_id) == False:
+                return "Access Unauthorized",401
+
             search_result = rt_search(search_string, limit, page)
             response = {}
             response['data'] = {}
@@ -177,6 +185,14 @@ class BoxOffice(Resource):
         try:
             limit = request.args.get('limit')
             search_result = rt_boxoffice(limit)
+            email_id=request.args.get('email_id')
+            access_token=request.args.get('access_token')
+
+            if email_id == None or access_token ==None:
+                return "Access Unauthorized",401
+            elif access_token_matches(email_id) == False:
+                return "Access Unauthorized",401
+
             response = {}
             response['data'] = {}
             movies = get_detailed_movies(search_result['movies'])
@@ -193,6 +209,14 @@ class Upcoming(Resource):
         try:
             limit = request.args.get('limit')
             page = request.args.get('page')
+            email_id=request.args.get('email_id')
+            access_token=request.args.get('access_token')
+
+            if email_id == None or access_token ==None:
+                return "Access Unauthorized",401
+            elif access_token_matches(email_id) == False:
+                return "Access Unauthorized",401
+
             search_result = rt_upcoming(limit, page)
             response = {}
             response['data'] = {}
