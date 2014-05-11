@@ -29,7 +29,6 @@ class RegisterUser(Resource):
         except KeyError:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
         except TypeError:
-            logger.error("TypeError: %s",request_params)
             return {'status': 400, 'message': 'Bad Request'}, 400
 
         if email_id == None or auth_token == None:
