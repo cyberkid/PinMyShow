@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from config import Config
+import hashlib
 
 
 def store_movies(mid, movies, collection_name):
@@ -36,6 +37,17 @@ def access_token_matches(email_id,access_token):
         return True
     else:
         return False
+
+def auth_token_matches(email_id,gcm_id,auth_token):
+    salt =gcm_id[0:6]+email_id[::-1]
+    m=hashlib.md5()
+    m.update(salt)
+    if m.hexdigest() in auth_token:
+        return True
+    else:
+        return False
+
+
 
 
 

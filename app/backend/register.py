@@ -5,6 +5,7 @@ import base64
 from pymongo import MongoClient
 from config import Config
 from hashlib import sha256, sha1
+from actions import auth_token_matches
 import os
 
 from raven.handlers.logging import SentryHandler
@@ -21,6 +22,18 @@ logger = logging.getLogger(__name__)
 class RegisterUser(Resource):
     def post(self):
         request_params = request.get_json()
+        try:
+            email_id = request_params['email']
+            auth_token = request_params['auth_token']
+            gcm_id = request_params['gcm_id']
+        except KeyError:
+            return {'status_code': 401, 'message': 'Access Unauthorized'}, 401
+
+        if email_id == None or auth_token == None:
+            return {'status_code': 401, 'message': 'Access Unauthorized'}, 401
+        elif auth_token_matches(email_id, gcm_id,auth_token) == False:
+            return {'status_code': 401, 'message': 'Access Unauthorized'}, 401
+
         client = MongoClient()
         status =  {'status_code':201, 'message': 'Successfully Created'}
         http_code = 201
