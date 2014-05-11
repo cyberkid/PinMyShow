@@ -35,7 +35,6 @@ class RegisterUser(Resource):
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
         client = MongoClient()
-        status =  {'status':201, 'message': 'Successfully Created'}
         http_code = 201
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
@@ -44,6 +43,7 @@ class RegisterUser(Resource):
         request_params['_id'] = sha256(request_params['email']).hexdigest()
         check = collection.find({'email':request_params['email']})
         access_token=base64.urlsafe_b64encode(os.urandom(30))
+        status =  {'status':201, 'message': 'Successfully Created','access_token':access_token}
         request_params['access_token']=access_token
         if check.count() > 0:
             status = {'status':200, 'message': 'Successfully Updated','access_token':access_token}
