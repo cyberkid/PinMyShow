@@ -17,12 +17,12 @@ class PinMovie(Resource):
             email_id = request_params['email']
             access_token = request_params['access_token']
         except KeyError:
-            return {'status_code': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
         if email_id == None or access_token == None:
-            return {'status_code': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
         elif access_token_matches(email_id, access_token) == False:
-            return {'status_code': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
         client = MongoClient()
         db = client[Config.DB_PMS]
@@ -39,7 +39,7 @@ class PinMovie(Resource):
                 if rt_id not in user['pins']:
                     user['pins'].append(str(rt_id))
         create_id = collection.save(user)
-        status = {'status_code': 201, 'message': 'Successfully Pinned'}
+        status = {'status': 201, 'message': 'Successfully Pinned'}
         return status, 201
 
 
@@ -50,12 +50,12 @@ class UnPin(Resource):
             email_id = request_params['email']
             access_token = request_params['access_token']
         except KeyError:
-            return {'status_code': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
         if email_id == None or access_token == None:
-            return {'status_code': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
         elif access_token_matches(email_id, access_token) == False:
-            return {'status_code': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
         client = MongoClient()
         db = client[Config.DB_PMS]
@@ -68,7 +68,7 @@ class UnPin(Resource):
                 except ValueError:
                     pass
         create_id = collection.save(user)
-        status = {'status_code': 200, 'message': 'Successfully UnPinned'}
+        status = {'status': 200, 'message': 'Successfully UnPinned'}
         return status, 200
 
 
@@ -79,12 +79,12 @@ class MyPins(Resource):
             email_id = request_params['email']
             access_token = request_params['access_token']
         except KeyError:
-            return {'status_code': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
         if email_id == None or access_token == None:
-            return {'status_code': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
         elif access_token_matches(email_id, access_token) == False:
-            return {'status_code': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
         client = MongoClient()
         db = client[Config.DB_PMS]

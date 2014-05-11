@@ -9,4 +9,4 @@ class Notify(Resource):
         db = client['test_pinmyshow']
         collection = db['pins']
         create_id = collection.save(request_params)
-        return {'status_code':200, 'message':'Consider it done Boss!'},200
+        return {'status':200, 'message':'Consider it done Boss!'},200

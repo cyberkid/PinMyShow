@@ -27,15 +27,15 @@ class RegisterUser(Resource):
             auth_token = request_params['auth_token']
             gcm_id = request_params['gcm_id']
         except KeyError:
-            return {'status_code': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
         if email_id == None or auth_token == None:
-            return {'status_code': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
         elif auth_token_matches(email_id, gcm_id,auth_token) == False:
-            return {'status_code': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
         client = MongoClient()
-        status =  {'status_code':201, 'message': 'Successfully Created'}
+        status =  {'status':201, 'message': 'Successfully Created'}
         http_code = 201
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
@@ -46,7 +46,7 @@ class RegisterUser(Resource):
         access_token=base64.urlsafe_b64encode(os.urandom(30))
         request_params['access_token']=access_token
         if check.count() > 0:
-            status = {'status_code':200, 'message': 'Successfully Updated','access_token':access_token}
+            status = {'status':200, 'message': 'Successfully Updated','access_token':access_token}
             http_code = 200
             collection.update({'email':request_params['email']}, {"$set": request_params }, upsert=False)
         else:
