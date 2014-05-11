@@ -28,6 +28,8 @@ class RegisterUser(Resource):
             gcm_id = request_params['gcm_id']
         except KeyError:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
+        except TypeError:
+            return {'status': 400, 'message': 'Bad Request'}, 400
 
         if email_id == None or auth_token == None:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
