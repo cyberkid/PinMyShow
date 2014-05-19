@@ -68,6 +68,25 @@ def sendNotification(gcm_id,message):
         return "Failed"
     return "Success"
 
+def sendNotificationToUser(email,data):
+    client=MongoClient()
+    db=client[Config.DB_PMS]
+    collection=db[Config.COLLECTION_USERS]
+    result=collection.find_one({'email':email})
+
+    gcm_id=result['gcm_id']
+    if gcm_id == None:
+        logger.error("sendNotificationToUser Error: no gcm_id found for %s",email)
+        return "Failed"
+
+    data = data
+    try:
+        gcm.plaintext_request(registration_id=gcm_id, data=data)
+    except Exception as e:
+        logger.error("sendNotificationToUser failed "+e.message)
+        return "Failed"
+    return "Success"
+
 
 
 

@@ -4,7 +4,7 @@ import requests
 from flask import request
 from actions import access_token_matches
 from BeautifulSoup import BeautifulSoup
-from actions import sendNotification
+from actions import sendNotification,sendNotificationToUser
 
 from raven.handlers.logging import SentryHandler
 from raven import Client
@@ -39,3 +39,10 @@ class GCMClient(Resource):
 
         response={'status':200,'message':sendNotification(gcm_id,message)}
         return response
+
+    def get(self):
+        message=request.args.get('message');
+        if message == None:
+            return {'status':400,'message':'Bad Request'},400
+        data={'message':message}
+        response={'status':200,'message':sendNotificationToUser('sreej.th4u@gmail.com',data)}
