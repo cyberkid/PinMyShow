@@ -63,12 +63,6 @@ def sendNotification(gcm_id,message):
     data = {'message': message}
     try:
         gcm.plaintext_request(registration_id=gcm_id, data=data)
-    except GCM.GCMNotRegisteredException as ne:
-        logger.error(ne)
-        return "Failed"
-    except GCM.GCMUnavailableException as ue:
-        logger.error(ue)
-        return "Failed"
     except Exception as e:
         logger.error(e)
         return "Failed"
