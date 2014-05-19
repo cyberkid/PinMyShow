@@ -74,6 +74,10 @@ def sendNotificationToUser(email,data):
     collection=db[Config.COLLECTION_USERS]
     result=collection.find_one({'email':email})
 
+    if result==None:
+        logger.error("sendNotificationToUser Error: no email found %s",email)
+        return "Failed"
+
     gcm_id=result['gcm_id']
     if gcm_id == None:
         logger.error("sendNotificationToUser Error: no gcm_id found for %s",email)
