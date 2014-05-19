@@ -18,19 +18,19 @@ logger = logging.getLogger(__name__)
 
 class GCMClient(Resource):
     def post(self):
+        request_params = request.get_json()
         try:
-            email_id=request.args.get('email')
-            access_token=request.args.get('access_token')
+            email_id = request_params['email']
+            access_token = request_params['access_token']
 
-            gcm_id=request.args.get('gcm_id')
-            message=request.args.get('message')
+            gcm_id= request_params['gcm_id']
+            message= request_params['message']
         except KeyError as ke:
             logger.error(ke)
         except Exception as e:
             logger.error(e)
 
         if email_id == None or access_token ==None or gcm_id == None or message == None:
-            logger.error("params missing")
             return {'status':400,'message':'Bad Request'},400
         elif access_token_matches(email_id,access_token) == False:
             return {'status':401,'message':'Access Unauthorized'},401
