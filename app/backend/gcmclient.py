@@ -16,7 +16,7 @@ handler = SentryHandler(client)
 setup_logging(handler)
 logger = logging.getLogger(__name__)
 
-class GCM(Resource):
+class GCMClient(Resource):
     def get(self, search_string):
         try:
             email_id=request.args.get('email')
