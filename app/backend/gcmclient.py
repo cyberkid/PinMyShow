@@ -45,4 +45,4 @@ class GCMClient(Resource):
         if message == None:
             return {'status':400,'message':'Bad Request'},400
         data={'message':message}
-        response={'status':200,'message':sendNotificationToUser('sreej.th4u@gmail.com',data)}
+        return {'status':200,'message':sendNotificationToUser('sreej.th4u@gmail.com',data)}
