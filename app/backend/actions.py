@@ -64,7 +64,7 @@ def sendNotification(gcm_id,message):
     try:
         gcm.plaintext_request(registration_id=gcm_id, data=data)
     except Exception as e:
-        logger.error(e)
+        logger.error("GCM pus failed"+e.message)
         return "Failed"
     return "Success"
 
