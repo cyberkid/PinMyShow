@@ -33,5 +33,5 @@ class GCMClient(Resource):
             return {'status':400,'message':'Bad Request'},400
         elif access_token_matches(email_id,access_token) == False:
             return {'status':401,'message':'Access Unauthorized'},401
-        response={'status':200,'message':'success'}
+        response={'status':200,'message':sendNotification(gcm_id,message)}
         return response
