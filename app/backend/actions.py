@@ -13,6 +13,8 @@ handler = SentryHandler(client)
 setup_logging(handler)
 logger = logging.getLogger(__name__)
 
+gcm=GCM(Config.API_KEY_GCM)
+
 def store_movies(mid, movies, collection_name):
     client = MongoClient()
     db = client[Config.DB_MOVIES]
@@ -57,21 +59,20 @@ def auth_token_matches(email_id,gcm_id,auth_token):
     else:
         return False
 
-# def sendNotification(gcm_id,message):
-#     gcm=GCM(Config.API_KEY_GCM)
-#     data = {'message': message}
-#     try:
-#         gcm.plaintext_request(registration_id=gcm_id, data=data)
-#     except GCM.GCMNotRegisteredException as ne:
-#         logger.error(ne)
-#         return "Failed"
-#     except GCM.GCMUnavailableException as ue:
-#         logger.error(ue)
-#         return "Failed"
-#     except Exception as e:
-#         logger.error(e)
-#         return "Failed"
-#     return "Success"
+def sendNotification(gcm_id,message):
+    data = {'message': message}
+    try:
+        gcm.plaintext_request(registration_id=gcm_id, data=data)
+    except GCM.GCMNotRegisteredException as ne:
+        logger.error(ne)
+        return "Failed"
+    except GCM.GCMUnavailableException as ue:
+        logger.error(ue)
+        return "Failed"
+    except Exception as e:
+        logger.error(e)
+        return "Failed"
+    return "Success"
 
 
 
