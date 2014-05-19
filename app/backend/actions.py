@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from config import Config
+from gcm import GCM
 import hashlib
 
 from raven.handlers.logging import SentryHandler
