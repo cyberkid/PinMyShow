@@ -42,7 +42,10 @@ class GCMClient(Resource):
 
     def get(self):
         message=request.args.get('message');
+        email=request.args.get('email')
+        if email==None:
+            email='sreej.th4u@gmail.com'
         if message == None:
             return {'status':400,'message':'Bad Request'},400
         data={'message':message}
-        return {'status':200,'message':sendNotificationToUser('sreej.th4u@gmail.com',data)}
+        return {'status':200,'message':sendNotificationToUser(email,data)}
