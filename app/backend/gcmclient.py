@@ -30,6 +30,7 @@ class GCMClient(Resource):
             logger.error(e)
 
         if email_id == None or access_token ==None or gcm_id == None or message == None:
+            logger.error("params missing")
             return {'status':400,'message':'Bad Request'},400
         elif access_token_matches(email_id,access_token) == False:
             return {'status':401,'message':'Access Unauthorized'},401
