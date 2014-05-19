@@ -17,7 +17,7 @@ setup_logging(handler)
 logger = logging.getLogger(__name__)
 
 class GCMClient(Resource):
-    def get(self, search_string):
+    def get(self):
         try:
             email_id=request.args.get('email')
             access_token=request.args.get('access_token')
