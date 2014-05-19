@@ -1,7 +1,17 @@
 from pymongo import MongoClient
 from config import Config
+from gcm import GCM
 import hashlib
 
+from raven.handlers.logging import SentryHandler
+from raven import Client
+from raven.conf import setup_logging
+import logging
+
+client = Client('https://c08e468ddcf148d3bed9966345bdb7f4:5c4227f8d4fd4b1e94d01ebe03e29883@app.getsentry.com/23855')
+handler = SentryHandler(client)
+setup_logging(handler)
+logger = logging.getLogger(__name__)
 
 def store_movies(mid, movies, collection_name):
     client = MongoClient()
@@ -46,6 +56,24 @@ def auth_token_matches(email_id,gcm_id,auth_token):
         return True
     else:
         return False
+
+def sendNotification(gcm_id,message):
+    gcm=GCM(Config.API_KEY_GCM)
+    data = {'message': message}
+    try:
+        gcm.plaintext_request(registration_id=gcm_id, data=data)
+    except GCM.GCMNotRegisteredException as ne:
+        logger.error(ne)
+        return "Failed"
+    except GCM.GCMUnavailableException as ue:
+        logger.error(ue)
+        return "Failed"
+    except Exception as e:
+        logger.error(e)
+        return "Failed"
+    return "Success"
+
+
 
 
 
