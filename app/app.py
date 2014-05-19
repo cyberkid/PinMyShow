@@ -6,7 +6,6 @@ from backend.search import BoxOffice
 from backend.search import Upcoming
 from backend.trailer import Trailers
 from backend.pins import PinMovie, MyPins, UnPin
-from backend.gcm import GCM
 from raven.contrib.flask import Sentry
 
 
@@ -22,7 +21,6 @@ api.add_resource(BoxOffice, '/boxoffice/')
 api.add_resource(PinMovie, '/pin/')
 api.add_resource(MyPins, '/mypins/')
 api.add_resource(UnPin, '/unpin/')
-api.add_resource(GCM, '/gcm/')
 
 if __name__ == '__main__':
     app.run(debug=True)
