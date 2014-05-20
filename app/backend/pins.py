@@ -5,10 +5,19 @@ from config import Config
 from pymongo import MongoClient
 
 from rt import rt_movie_info
-from actions import db_lookup_movies, access_token_validation
+from actions import db_lookup_movies, access_token_validation,emailFromAccessToken
 
 from search import get_detailed_movies
 
+from raven.handlers.logging import SentryHandler
+from raven import Client
+from raven.conf import setup_logging
+import logging
+
+client = Client('https://c08e468ddcf148d3bed9966345bdb7f4:5c4227f8d4fd4b1e94d01ebe03e29883@app.getsentry.com/23855')
+handler = SentryHandler(client)
+setup_logging(handler)
+logger = logging.getLogger(__name__)
 
 class PinMovie(Resource):
     def post(self):
@@ -26,7 +35,14 @@ class PinMovie(Resource):
         client = MongoClient()
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
-        user = collection.find_one({'email': request_params['email']})
+
+        email=emailFromAccessToken(access_token)
+        if email == None:
+            logger.error("PinMovies email not found for access_token='"+access_token+"'")
+            return {'status': 501, 'message': 'Email not found for access token'}, 501
+
+        user = collection.find_one({'email': email})
+
         try:
             if request_params['rt_id']:
                 for rt_id in request_params['rt_id']:
@@ -58,7 +74,14 @@ class UnPin(Resource):
         client = MongoClient()
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
-        user = collection.find_one({'email': request_params['email']})
+
+        email=emailFromAccessToken(access_token)
+        if email == None:
+            logger.error("PinMovies email not found for access_token='"+access_token+"'")
+            return {'status': 501, 'message': 'Email not found for access token'}, 501
+
+        user = collection.find_one({'email': email})
+
         if request_params['rt_id']:
             for rt_id in request_params['rt_id']:
                 try:
@@ -86,7 +109,14 @@ class MyPins(Resource):
         client = MongoClient()
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
-        user = collection.find_one({'email': request_params['email']})
+
+        email=emailFromAccessToken(access_token)
+        if email == None:
+            logger.error("PinMovies email not found for access_token='"+access_token+"'")
+            return {'status': 501, 'message': 'Email not found for access token'}, 501
+
+        user = collection.find_one({'email': email})
+
         mylist = []
         try:
             for pin in user['pins']:

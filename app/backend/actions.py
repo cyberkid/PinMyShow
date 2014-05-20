@@ -50,6 +50,16 @@ def access_token_matches(email_id,access_token):
     else:
         return False
 
+def emailFromAccessToken(access_token):
+    client=MongoClient()
+    db=client[Config.DB_PMS]
+    collection=db[Config.COLLECTION_USERS]
+    result=collection.find_one({'access_token':access_token})
+    if result == None:
+        return None
+    else:
+        return result['email']
+
 def access_token_validation(access_token):
     client=MongoClient()
     db=client[Config.DB_PMS]
