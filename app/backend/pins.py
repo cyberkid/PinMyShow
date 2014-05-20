@@ -25,12 +25,12 @@ class PinMovie(Resource):
         try:
             access_token = request_params['access_token']
         except KeyError:
-            return {'status': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 400, 'message': 'Bad Request'}, 400
         except TypeError:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
         if access_token == None:
-            return {'status': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 400, 'message': 'Bad Request'}, 400
         elif access_token_validation(access_token) == False:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
@@ -66,12 +66,12 @@ class UnPin(Resource):
         try:
             access_token = request_params['access_token']
         except KeyError:
-            return {'status': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 400, 'message': 'Bad Request'}, 400
         except TypeError:
-            return {'status': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 400, 'message': 'Bad Request'}, 400
 
         if access_token == None:
-            return {'status': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 400, 'message': 'Bad Request'}, 400
         elif access_token_validation(access_token) == False:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
@@ -94,9 +94,9 @@ class UnPin(Resource):
                     except ValueError:
                         pass
         except KeyError:
-            return {'status': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 400, 'message': 'Bad Request'}, 400
         except TypeError:
-            return {'status': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 400, 'message': 'Bad Request'}, 400
 
         create_id = collection.save(user)
         status = {'status': 200, 'message': 'Successfully UnPinned'}
@@ -109,13 +109,13 @@ class MyPins(Resource):
         try:
             access_token = request_params['access_token']
         except KeyError:
-            return {'status': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 400, 'message': 'Bad Request'}, 400
         except TypeError:
-            return {'status': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 400, 'message': 'Bad Request'}, 400
 
 
         if access_token == None:
-            return {'status': 401, 'message': 'Access Unauthorized'}, 401
+            return {'status': 400, 'message': 'Bad Request'}, 400
         elif access_token_validation(access_token) == False:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
