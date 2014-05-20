@@ -19,7 +19,6 @@ class GCMClient(Resource):
     def post(self):
         request_params = request.get_json()
         try:
-            email_id = request_params['email']
             access_token = request_params['access_token']
 
             gcm_id= request_params['gcm_id']
@@ -29,7 +28,7 @@ class GCMClient(Resource):
         except Exception as e:
             logger.error(e)
 
-        if email_id == None or access_token ==None or gcm_id == None or message == None:
+        if  access_token ==None or gcm_id == None or message == None:
             return {'status':400,'message':'Bad Request'},400
         elif access_token_validation(access_token) == False:
             return {'status':401,'message':'Access Unauthorized'},401

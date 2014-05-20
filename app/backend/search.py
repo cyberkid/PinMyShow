@@ -160,10 +160,9 @@ class Search(Resource):
         try:
             limit = request.args.get('limit')
             page = request.args.get('page')
-            email_id=request.args.get('email')
             access_token=request.args.get('access_token')
 
-            if email_id == None or access_token ==None:
+            if access_token ==None:
                 return {'status':400,'message':'Bad Request'},400
             elif access_token_validation(access_token) == False:
                 return {'status':401,'message':'Access Unauthorized'},401
@@ -185,10 +184,9 @@ class BoxOffice(Resource):
         try:
             limit = request.args.get('limit')
             search_result = rt_boxoffice(limit)
-            email_id=request.args.get('email')
             access_token=request.args.get('access_token')
 
-            if email_id == None or access_token ==None:
+            if access_token ==None:
                 return {'status':400,'message':'Bad Request'},400
             elif access_token_validation(access_token) == False:
                 return {'status':401,'message':'Access Unauthorized'},401
@@ -209,10 +207,9 @@ class Upcoming(Resource):
         try:
             limit = request.args.get('limit')
             page = request.args.get('page')
-            email_id=request.args.get('email')
             access_token=request.args.get('access_token')
 
-            if email_id == None or access_token ==None:
+            if access_token ==None:
                 return {'status':400,'message':'Bad Request'},400
             elif access_token_validation(access_token) == False:
                 return {'status':401,'message':'Access Unauthorized'},401

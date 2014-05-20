@@ -8,10 +8,9 @@ from BeautifulSoup import BeautifulSoup
 
 class Trailers(Resource):
     def get(self, search_string):
-        email_id=request.args.get('email')
         access_token=request.args.get('access_token')
 
-        if email_id == None or access_token ==None:
+        if access_token ==None:
             return {'status':401,'message':'Access Unauthorized'},401
         elif access_token_validation(access_token) == False:
             return {'status':401,'message':'Access Unauthorized'},401

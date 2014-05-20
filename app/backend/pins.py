@@ -14,12 +14,11 @@ class PinMovie(Resource):
     def post(self):
         request_params = request.get_json()
         try:
-            email_id = request_params['email']
             access_token = request_params['access_token']
         except KeyError:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
-        if email_id == None or access_token == None:
+        if access_token == None:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
         elif access_token_validation(access_token) == False:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
@@ -47,12 +46,11 @@ class UnPin(Resource):
     def post(self):
         request_params = request.get_json()
         try:
-            email_id = request_params['email']
             access_token = request_params['access_token']
         except KeyError:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
-        if email_id == None or access_token == None:
+        if access_token == None:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
         elif access_token_validation(access_token) == False:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
@@ -76,12 +74,11 @@ class MyPins(Resource):
     def post(self):
         request_params = request.get_json()
         try:
-            email_id = request_params['email']
             access_token = request_params['access_token']
         except KeyError:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
-        if email_id == None or access_token == None:
+        if access_token == None:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
         elif access_token_validation(access_token) == False:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
