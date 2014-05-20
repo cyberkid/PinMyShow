@@ -82,12 +82,15 @@ class UnPin(Resource):
 
         user = collection.find_one({'email': email})
 
-        if request_params['rt_id']:
-            for rt_id in request_params['rt_id']:
-                try:
-                    user['pins'].remove(str(rt_id))
-                except ValueError:
-                    pass
+        try:
+            if request_params['rt_id']:
+                for rt_id in request_params['rt_id']:
+                    try:
+                        user['pins'].remove(str(rt_id))
+                    except ValueError:
+                        pass
+        except KeyError:
+            return {'status': 400, 'message': 'Bad Request'}, 400
         create_id = collection.save(user)
         status = {'status': 200, 'message': 'Successfully UnPinned'}
         return status, 200
