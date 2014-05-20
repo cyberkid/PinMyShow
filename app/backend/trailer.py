@@ -2,7 +2,7 @@ from flask_restful import Resource
 
 import requests
 from flask import request
-from actions import access_token_matches
+from actions import access_token_validation
 from BeautifulSoup import BeautifulSoup
 
 
@@ -13,7 +13,7 @@ class Trailers(Resource):
 
         if email_id == None or access_token ==None:
             return {'status':401,'message':'Access Unauthorized'},401
-        elif access_token_matches(email_id,access_token) == False:
+        elif access_token_validation(access_token) == False:
             return {'status':401,'message':'Access Unauthorized'},401
 
         default = "/default.jpg"

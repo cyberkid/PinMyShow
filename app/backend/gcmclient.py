@@ -2,9 +2,8 @@ from flask_restful import Resource
 
 import requests
 from flask import request
-from actions import access_token_matches
 from BeautifulSoup import BeautifulSoup
-from actions import sendNotification,sendNotificationToUser
+from actions import sendNotification,sendNotificationToUser,access_token_validation
 
 from raven.handlers.logging import SentryHandler
 from raven import Client
@@ -32,10 +31,10 @@ class GCMClient(Resource):
 
         if email_id == None or access_token ==None or gcm_id == None or message == None:
             return {'status':400,'message':'Bad Request'},400
-        elif access_token_matches(email_id,access_token) == False:
+        elif access_token_validation(access_token) == False:
             return {'status':401,'message':'Access Unauthorized'},401
 
-        logger.warning("GCM push gcm_id= %s, message= %s",gcm_id,message)
+        logger.warning("GCM push gcm_id= %s, maccess_token_matchesessage= %s",gcm_id,message)
 
         response={'status':200,'message':sendNotification(gcm_id,message)}
         return response

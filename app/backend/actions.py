@@ -50,6 +50,16 @@ def access_token_matches(email_id,access_token):
     else:
         return False
 
+def access_token_validation(access_token):
+    client=MongoClient()
+    db=client[Config.DB_PMS]
+    collection=db[Config.COLLECTION_USERS]
+    result=collection.find_one({'access_token':access_token})
+    if result == None:
+        return False
+    else:
+        return True
+
 def auth_token_matches(email_id,gcm_id,auth_token):
     salt =gcm_id[0:6]+email_id[::-1]
     m=hashlib.md5()

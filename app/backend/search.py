@@ -4,7 +4,7 @@ from flask_restful import Resource
 from rt import rt_search, rt_boxoffice, rt_upcoming
 from trakt import trakt_get_data
 from omdb import omdb_get_data
-from actions import store_movies, store_one_movie,access_token_matches
+from actions import store_movies, store_one_movie,access_token_validation
 from config import Config
 
 from raven.handlers.logging import SentryHandler
@@ -165,7 +165,7 @@ class Search(Resource):
 
             if email_id == None or access_token ==None:
                 return {'status':400,'message':'Bad Request'},400
-            elif access_token_matches(email_id,access_token) == False:
+            elif access_token_validation(access_token) == False:
                 return {'status':401,'message':'Access Unauthorized'},401
 
             search_result = rt_search(search_string, limit, page)
@@ -190,7 +190,7 @@ class BoxOffice(Resource):
 
             if email_id == None or access_token ==None:
                 return {'status':400,'message':'Bad Request'},400
-            elif access_token_matches(email_id,access_token) == False:
+            elif access_token_validation(access_token) == False:
                 return {'status':401,'message':'Access Unauthorized'},401
 
             response = {}
@@ -214,7 +214,7 @@ class Upcoming(Resource):
 
             if email_id == None or access_token ==None:
                 return {'status':400,'message':'Bad Request'},400
-            elif access_token_matches(email_id,access_token) == False:
+            elif access_token_validation(access_token) == False:
                 return {'status':401,'message':'Access Unauthorized'},401
 
             search_result = rt_upcoming(limit, page)
