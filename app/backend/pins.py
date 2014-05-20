@@ -1,3 +1,4 @@
+from types import NoneType
 from flask import request
 from flask_restful import Resource
 
@@ -24,7 +25,7 @@ class PinMovie(Resource):
         request_params = request.get_json()
         try:
             access_token = request_params['access_token']
-        except KeyError:
+        except KeyError or NoneType:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
         if access_token == None:
@@ -63,7 +64,7 @@ class UnPin(Resource):
         request_params = request.get_json()
         try:
             access_token = request_params['access_token']
-        except KeyError:
+        except KeyError or NoneType:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
         if access_token == None:
@@ -89,7 +90,7 @@ class UnPin(Resource):
                         user['pins'].remove(str(rt_id))
                     except ValueError:
                         pass
-        except KeyError:
+        except KeyError or NoneType:
             return {'status': 400, 'message': 'Bad Request'}, 400
         create_id = collection.save(user)
         status = {'status': 200, 'message': 'Successfully UnPinned'}
@@ -101,7 +102,7 @@ class MyPins(Resource):
         request_params = request.get_json()
         try:
             access_token = request_params['access_token']
-        except KeyError:
+        except KeyError or NoneType:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
         if access_token == None:
