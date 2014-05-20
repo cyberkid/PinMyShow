@@ -24,7 +24,9 @@ class PinMovie(Resource):
         request_params = request.get_json()
         try:
             access_token = request_params['access_token']
-        except KeyError or TypeError:
+        except KeyError:
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
+        except TypeError:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
         if access_token == None:
@@ -63,7 +65,9 @@ class UnPin(Resource):
         request_params = request.get_json()
         try:
             access_token = request_params['access_token']
-        except KeyError or TypeError:
+        except KeyError:
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
+        except TypeError:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
 
         if access_token == None:
@@ -89,8 +93,11 @@ class UnPin(Resource):
                         user['pins'].remove(str(rt_id))
                     except ValueError:
                         pass
-        except KeyError or TypeError:
-            return {'status': 400, 'message': 'Bad Request'}, 400
+        except KeyError:
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
+        except TypeError:
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
+
         create_id = collection.save(user)
         status = {'status': 200, 'message': 'Successfully UnPinned'}
         return status, 200
@@ -101,8 +108,11 @@ class MyPins(Resource):
         request_params = request.get_json()
         try:
             access_token = request_params['access_token']
-        except KeyError or TypeError:
+        except KeyError:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
+        except TypeError:
+            return {'status': 401, 'message': 'Access Unauthorized'}, 401
+
 
         if access_token == None:
             return {'status': 401, 'message': 'Access Unauthorized'}, 401
