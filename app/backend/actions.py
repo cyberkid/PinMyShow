@@ -14,7 +14,8 @@ handler = SentryHandler(client)
 setup_logging(handler)
 logger = logging.getLogger(__name__)
 
-gcm=GCM(Config.API_KEY_GCM)
+gcm = GCM(Config.API_KEY_GCM)
+
 
 def store_movies(mid, movies, collection_name):
     client = MongoClient()
@@ -39,11 +40,12 @@ def db_lookup_movies(rt_id):
     collection = db[Config.COLLECTION_MOVIES]
     return collection.find_one({'_id': rt_id})
 
-def access_token_matches(email_id,access_token):
-    client=MongoClient()
-    db=client[Config.DB_PMS]
-    collection=db[Config.COLLECTION_USERS]
-    result=collection.find_one({'email':email_id})
+
+def access_token_matches(email_id, access_token):
+    client = MongoClient()
+    db = client[Config.DB_PMS]
+    collection = db[Config.COLLECTION_USERS]
+    result = collection.find_one({'email': email_id})
     if result == None:
         return False
     elif result['access_token'] in access_token:
@@ -51,78 +53,84 @@ def access_token_matches(email_id,access_token):
     else:
         return False
 
+
 def emailFromAccessToken(access_token):
-    client=MongoClient()
-    db=client[Config.DB_PMS]
-    collection=db[Config.COLLECTION_USERS]
-    result=collection.find_one({'access_token':access_token})
+    client = MongoClient()
+    db = client[Config.DB_PMS]
+    collection = db[Config.COLLECTION_USERS]
+    result = collection.find_one({'access_token': access_token})
     if result == None:
         return None
     else:
         return result['email']
 
+
 def access_token_validation(access_token):
-    client=MongoClient()
-    db=client[Config.DB_PMS]
-    collection=db[Config.COLLECTION_USERS]
-    result=collection.find_one({'access_token':access_token})
+    client = MongoClient()
+    db = client[Config.DB_PMS]
+    collection = db[Config.COLLECTION_USERS]
+    result = collection.find_one({'access_token': access_token})
     if result == None:
         return False
     else:
         return True
 
-def ts_signature_validation(timestamp,signature):
-    ts=str(timestamp)
-    salt="sig"+ts[::-1]+"nature"
-    m=hashlib.md5()
+
+def ts_signature_validation(timestamp, signature):
+    ts = str(timestamp)
+    salt = "sig" + ts[::-1] + "nature"
+    m = hashlib.md5()
     m.update(salt)
-    sysTs = int(time.time()*1000)
+    sysTs = int(time.time() * 1000)
     if m.hexdigest() in signature:
-        if sysTs+60000 >= timestamp >= sysTs-180000:
+        if int(sysTs) + 60000 >= timestamp >= int(sysTs) - 180000:
             return True
         else:
             return False
     else:
         return False
 
-def auth_token_matches(email_id,gcm_id,auth_token):
-    salt =gcm_id[0:6]+email_id[::-1]
-    m=hashlib.md5()
+
+def auth_token_matches(email_id, gcm_id, auth_token):
+    salt = gcm_id[0:6] + email_id[::-1]
+    m = hashlib.md5()
     m.update(salt)
     if m.hexdigest() in auth_token:
         return True
     else:
         return False
 
-def sendNotification(gcm_id,message):
+
+def sendNotification(gcm_id, message):
     data = {'message': message}
     try:
         gcm.plaintext_request(registration_id=gcm_id, data=data)
     except Exception as e:
-        logger.error("GCM push failed "+e.message)
+        logger.error("GCM push failed " + e.message)
         return "Failed"
     return "Success"
 
-def sendNotificationToUser(email,data):
-    client=MongoClient()
-    db=client[Config.DB_PMS]
-    collection=db[Config.COLLECTION_USERS]
-    result=collection.find_one({'email':email})
 
-    if result==None:
-        logger.error("sendNotificationToUser Error: no email found %s",email)
+def sendNotificationToUser(email, data):
+    client = MongoClient()
+    db = client[Config.DB_PMS]
+    collection = db[Config.COLLECTION_USERS]
+    result = collection.find_one({'email': email})
+
+    if result == None:
+        logger.error("sendNotificationToUser Error: no email found %s", email)
         return "Failed"
 
-    gcm_id=result['gcm_id']
+    gcm_id = result['gcm_id']
     if gcm_id == None:
-        logger.error("sendNotificationToUser Error: no gcm_id found for %s",email)
+        logger.error("sendNotificationToUser Error: no gcm_id found for %s", email)
         return "Failed"
 
     data = data
     try:
         gcm.plaintext_request(registration_id=gcm_id, data=data)
     except Exception as e:
-        logger.error("sendNotificationToUser failed "+e.message)
+        logger.error("sendNotificationToUser failed " + e.message)
         return "Failed"
     return "Success"
 
