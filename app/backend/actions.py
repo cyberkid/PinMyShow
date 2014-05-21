@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from config import Config
 from gcm import GCM
 import hashlib
+import time
 
 from raven.handlers.logging import SentryHandler
 from raven import Client
@@ -75,8 +76,12 @@ def ts_signature_validation(timestamp,signature):
     salt="sig"+ts[::-1]+"nature"
     m=hashlib.md5()
     m.update(salt)
+    sysTs = int(time.time())
     if m.hexdigest() in signature:
-        return True
+        if sysTs >= timestamp >= sysTs-180000:
+            return True
+        else:
+            return False
     else:
         return False
 
