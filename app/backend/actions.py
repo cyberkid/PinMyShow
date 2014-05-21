@@ -76,7 +76,7 @@ def ts_signature_validation(timestamp,signature):
     salt="sig"+ts[::-1]+"nature"
     m=hashlib.md5()
     m.update(salt)
-    sysTs = int(time.time())
+    sysTs = int(time.time()*1000)
     if m.hexdigest() in signature:
         if sysTs >= timestamp >= sysTs-180000:
             return True
