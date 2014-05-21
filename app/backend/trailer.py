@@ -52,4 +52,5 @@ class Trailer(Resource):
         source_url = "http://gdata.youtube.com/feeds/api/videos?q=" + search_string + "+trailer"
         feed = requests.get(source_url)
         data=feedparser.parse(feed)
-        return data.entries[0],200
+        response={'data':data}
+        return response,200
