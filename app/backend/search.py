@@ -211,6 +211,9 @@ class Upcoming(Resource):
             if ts == None or signature== None:
                 return {'status':400,'message':'Bad Request'},400
 
+            if ts_signature_validation(ts,signature) == True:
+                return {'status':200,'message':'Success signature'},200
+
             if ts_signature_validation(ts,signature) == False:
                 return {'status':401,'message':'Bad signature'},401
 
