@@ -167,7 +167,7 @@ class Search(Resource):
                 return {'status':400,'message':'Bad Request'},400
 
             if ts_signature_validation(ts,signature) == False:
-                return {'status':401,'message':'Bad signature'},401
+                return {'status':401,'message':'Invalid signature'},401
 
             search_result = rt_search(search_string, limit, page)
             response = {}
@@ -192,7 +192,7 @@ class BoxOffice(Resource):
                 return {'status':400,'message':'Bad Request'},400
 
             if ts_signature_validation(ts,signature) == False:
-                return {'status':401,'message':'Bad signature'},401
+                return {'status':401,'message':'Invalid signature'},401
 
             search_result = rt_boxoffice(limit)
             response = {}
@@ -218,7 +218,7 @@ class Upcoming(Resource):
                 return {'status':400,'message':'Bad Request'},400
 
             if ts_signature_validation(ts,signature) == False:
-                return {'status':401,'message':'Bad signature'},401
+                return {'status':401,'message':'Invalid signature'},401
 
             search_result = rt_upcoming(limit, page)
             response = {}
