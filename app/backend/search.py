@@ -4,7 +4,7 @@ from flask_restful import Resource
 from rt import rt_search, rt_boxoffice, rt_upcoming
 from trakt import trakt_get_data
 from omdb import omdb_get_data
-from actions import store_movies, store_one_movie,access_token_validation
+from actions import store_movies, store_one_movie,ts_signature_validation
 from config import Config
 
 from raven.handlers.logging import SentryHandler
@@ -160,12 +160,11 @@ class Search(Resource):
         try:
             limit = request.args.get('limit')
             page = request.args.get('page')
-            access_token=request.args.get('access_token')
+            ts=request.args.get('ts')
+            signature=request.args.get('signature')
 
-            if access_token ==None:
+            if ts ==None or signature==None or ts_signature_validation(ts,signature):
                 return {'status':400,'message':'Bad Request'},400
-            elif access_token_validation(access_token) == False:
-                return {'status':401,'message':'Access Unauthorized'},401
 
             search_result = rt_search(search_string, limit, page)
             response = {}
@@ -184,12 +183,11 @@ class BoxOffice(Resource):
         try:
             limit = request.args.get('limit')
             search_result = rt_boxoffice(limit)
-            access_token=request.args.get('access_token')
+            ts=request.args.get('ts')
+            signature=request.args.get('signature')
 
-            if access_token ==None:
+            if ts ==None or signature==None or ts_signature_validation(ts,signature):
                 return {'status':400,'message':'Bad Request'},400
-            elif access_token_validation(access_token) == False:
-                return {'status':401,'message':'Access Unauthorized'},401
 
             response = {}
             response['data'] = {}
@@ -207,12 +205,11 @@ class Upcoming(Resource):
         try:
             limit = request.args.get('limit')
             page = request.args.get('page')
-            access_token=request.args.get('access_token')
+            ts=request.args.get('ts')
+            signature=request.args.get('signature')
 
-            if access_token ==None:
+            if ts ==None or signature==None or ts_signature_validation(ts,signature):
                 return {'status':400,'message':'Bad Request'},400
-            elif access_token_validation(access_token) == False:
-                return {'status':401,'message':'Access Unauthorized'},401
 
             search_result = rt_upcoming(limit, page)
             response = {}

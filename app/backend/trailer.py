@@ -2,18 +2,17 @@ from flask_restful import Resource
 
 import requests
 from flask import request
-from actions import access_token_validation
+from actions import ts_signature_validation
 from BeautifulSoup import BeautifulSoup
 
 
 class Trailers(Resource):
     def get(self, search_string):
-        access_token=request.args.get('access_token')
+        ts=request.args.get('ts')
+        signature=request.args.get('signature')
 
-        if access_token ==None:
-            return {'status':401,'message':'Access Unauthorized'},401
-        elif access_token_validation(access_token) == False:
-            return {'status':401,'message':'Access Unauthorized'},401
+        if ts ==None or signature==None or ts_signature_validation(ts,signature):
+            return {'status':400,'message':'Bad Request'},400
 
         default = "/default.jpg"
         hq = "/hqdefault.jpg"

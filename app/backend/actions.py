@@ -70,6 +70,16 @@ def access_token_validation(access_token):
     else:
         return True
 
+def ts_signature_validation(timestamp,signature):
+    ts=str(timestamp)
+    salt="sig"+ts[::-1]+"nature"
+    m=hashlib.md5()
+    m.update(salt)
+    if m.hexdigest() in signature:
+        return True
+    else:
+        return False
+
 def auth_token_matches(email_id,gcm_id,auth_token):
     salt =gcm_id[0:6]+email_id[::-1]
     m=hashlib.md5()
