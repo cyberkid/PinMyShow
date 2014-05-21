@@ -163,7 +163,7 @@ class Search(Resource):
             ts=request.args.get('ts')
             signature=request.args.get('signature')
 
-            if ts ==None or signature==None or ts_signature_validation(ts,signature):
+            if ts ==None or signature==None or ts_signature_validation(ts,signature)== False:
                 return {'status':400,'message':'Bad Request'},400
 
             search_result = rt_search(search_string, limit, page)
@@ -186,7 +186,7 @@ class BoxOffice(Resource):
             ts=request.args.get('ts')
             signature=request.args.get('signature')
 
-            if ts ==None or signature==None or ts_signature_validation(ts,signature):
+            if ts ==None or signature==None or ts_signature_validation(ts,signature)== False:
                 return {'status':400,'message':'Bad Request'},400
 
             response = {}
@@ -208,8 +208,11 @@ class Upcoming(Resource):
             ts=request.args.get('ts')
             signature=request.args.get('signature')
 
-            if ts ==None or signature==None or ts_signature_validation(ts,signature) == False:
+            if ts == None or signature== None:
                 return {'status':400,'message':'Bad Request'},400
+
+            if ts_signature_validation(ts,signature) == False:
+                return {'status':401,'message':'Bad signature'},401
 
             search_result = rt_upcoming(limit, page)
             response = {}
