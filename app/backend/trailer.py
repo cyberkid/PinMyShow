@@ -11,7 +11,7 @@ class Trailers(Resource):
         ts=request.args.get('ts')
         signature=request.args.get('signature')
 
-        if ts ==None or signature==None or ts_signature_validation(ts,signature):
+        if ts ==None or signature==None or ts_signature_validation(ts,signature)==False:
             return {'status':401,'message':'Invalid signature'},401
 
         default = "/default.jpg"
