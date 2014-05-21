@@ -4,7 +4,7 @@ from backend.register import RegisterUser
 from backend.search import Search
 from backend.search import BoxOffice
 from backend.search import Upcoming
-from backend.trailer import Trailers
+from backend.trailer import Trailers,Trailer
 from backend.pins import PinMovie, MyPins, UnPin
 from backend.gcmclient import GCMClient
 from raven.contrib.flask import Sentry
@@ -23,6 +23,7 @@ api.add_resource(PinMovie, '/pin/')
 api.add_resource(MyPins, '/mypins/')
 api.add_resource(UnPin, '/unpin/')
 api.add_resource(GCMClient, '/gcm/')
+api.add_resource(Trailer, '/trailer/<string:search_string>/')
 
 if __name__ == '__main__':
     app.run(debug=True)
