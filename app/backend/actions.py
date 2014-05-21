@@ -77,8 +77,7 @@ def access_token_validation(access_token):
 
 
 def ts_signature_validation(timestamp, signature):
-    ts = str(timestamp)
-    salt = "sig" + ts[::-1] + "nature"
+    salt = "sig" + timestamp[::-1] + "nature"
     m = hashlib.md5()
     m.update(salt)
     sysTs = int(time.time() * 1000)
