@@ -78,7 +78,7 @@ def ts_signature_validation(timestamp,signature):
     m.update(salt)
     sysTs = int(time.time())*1000L
     if m.hexdigest() in signature:
-        if sysTs+60000L >= timestamp >= sysTs-60000L:
+        if sysTs+60000L >= timestamp >= sysTs-180000L:
             return True
         else:
             return False
