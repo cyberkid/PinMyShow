@@ -163,8 +163,11 @@ class Search(Resource):
             ts=request.args.get('ts')
             signature=request.args.get('signature')
 
-            if ts ==None or signature==None or ts_signature_validation(ts,signature)== False:
+            if ts == None or signature== None or limit==None:
                 return {'status':400,'message':'Bad Request'},400
+
+            if ts_signature_validation(ts,signature) == False:
+                return {'status':401,'message':'Bad signature'},401
 
             search_result = rt_search(search_string, limit, page)
             response = {}
@@ -182,13 +185,16 @@ class BoxOffice(Resource):
     def get(self):
         try:
             limit = request.args.get('limit')
-            search_result = rt_boxoffice(limit)
             ts=request.args.get('ts')
             signature=request.args.get('signature')
 
-            if ts ==None or signature==None or ts_signature_validation(ts,signature)== False:
+            if ts == None or signature== None or limit==None:
                 return {'status':400,'message':'Bad Request'},400
 
+            if ts_signature_validation(ts,signature) == False:
+                return {'status':401,'message':'Bad signature'},401
+
+            search_result = rt_boxoffice(limit)
             response = {}
             response['data'] = {}
             movies = get_detailed_movies(search_result['movies'])
@@ -208,14 +214,13 @@ class Upcoming(Resource):
             ts=request.args.get('ts')
             signature=request.args.get('signature')
 
-            if ts == None or signature== None:
+            if ts == None or signature== None or limit==None or page==None:
                 return {'status':400,'message':'Bad Request'},400
 
             if ts_signature_validation(ts,signature) == False:
                 return {'status':401,'message':'Bad signature'},401
 
             search_result = rt_upcoming(limit, page)
-            return search_result,200
             response = {}
             response['data'] = {}
             response['data']['count'] = search_result['total']
