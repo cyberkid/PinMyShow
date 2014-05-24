@@ -23,7 +23,11 @@ class Showtimes(Resource):
         content=re.findall(r"\<div\>.*\<\/div\>",resp.content)
         soup =BeautifulSoup(content[0])
         result=soup.find(id="movie_results")
-        return result,200
+        response=[]
+        theatres=result.findAll("div",{"class":"theater"})
+        for x in theatres:
+            response.append(str(x))
+        return response,200
 
 
 
