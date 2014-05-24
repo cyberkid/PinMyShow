@@ -22,7 +22,7 @@ class Showtimes(Resource):
         resp=requests.get(url)
         content=re.findall(r"\<div\>.*\<\/div\>",resp.content)
         soup =BeautifulSoup(content)
-        return content,200
+        return str(content),200
 
 
 
