@@ -25,7 +25,7 @@ api.add_resource(MyPins, '/mypins/')
 api.add_resource(UnPin, '/unpin/')
 api.add_resource(GCMClient, '/gcm/')
 api.add_resource(Trailer, '/trailers/<string:search_string>/')
-api.add_resource(Showtimes, '/showtimes/<string:search_string>/')
+api.add_resource(Showtimes, '/showtimes/<string:movie>/')
 
 if __name__ == '__main__':
     app.run(debug=True)
