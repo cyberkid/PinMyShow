@@ -16,7 +16,7 @@ setup_logging(handler)
 logger = logging.getLogger(__name__)
 
 
-class MovieInTheatre(Resource):
+class Showtimes(Resource):
     def get(self,movie):
         url="http://www.google.com/movies?near=bangalore&q="+movie;
         resp=requests.get(url)
