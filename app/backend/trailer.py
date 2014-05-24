@@ -1,7 +1,7 @@
 from flask_restful import Resource
 
 import requests
-import feedparser
+import feedparser,json
 from flask import request
 from actions import ts_signature_validation
 from BeautifulSoup import BeautifulSoup
@@ -49,7 +49,11 @@ class Trailer(Resource):
         #sd = "/sddefault.jpg"
         #max = "/maxresdefault.jpg"
         #
-        source_url = "http://gdata.youtube.com/feeds/api/videos?q=" + search_string + "+trailer"
+        source_url = "http://gdata.youtube.com/feeds/api/videos?q=" + search_string + "+official+trailer"
         feed = requests.get(source_url)
         data=feedparser.parse(feed.content)
-        return data,200
+        response={}
+        if len(data.entries) > 0:
+            feed=data.entries[0];
+            response['link']=feed.link.replace("&feature=youtube_gdata","")
+        return response,200
