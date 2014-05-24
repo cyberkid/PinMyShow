@@ -26,7 +26,11 @@ class Showtimes(Resource):
         response=[]
         theatres=result.findAll("div",{"class":"theater"})
         for x in theatres:
-            theatre=x.find("div",{"class":"name"}).text
+            theatre={}
+            theatre["name"]=x.find("div",{"class":"name"}).text
+            theatre['link']=x.a.get('href')
+            theatre['address']=x.find("div",{"class":"address"}).text
+            theatre['shows']=x.find("div",{"class":"times"}).text.replace("&#8206;","").split("&nbsp;")
             response.append(theatre)
         return response,200
 
