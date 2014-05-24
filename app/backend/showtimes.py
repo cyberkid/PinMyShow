@@ -21,7 +21,7 @@ class Showtimes(Resource):
         url="http://www.google.com/movies?near=bangalore&q="+movie;
         resp=requests.get(url)
         content=re.findall(r"\<div\>.*\<\/div\>",resp.content)
-        soup =BeautifulSoup(content)
+        #soup =BeautifulSoup(content)
         return str(content),200
 
 
