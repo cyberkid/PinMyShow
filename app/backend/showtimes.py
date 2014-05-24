@@ -26,7 +26,8 @@ class Showtimes(Resource):
         response=[]
         theatres=result.findAll("div",{"class":"theater"})
         for x in theatres:
-            response.append(str(x))
+            theatre=x.find("div",{"class":"name"}).text
+            response.append(theatre)
         return response,200
 
 
