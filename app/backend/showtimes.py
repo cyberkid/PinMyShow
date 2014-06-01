@@ -27,12 +27,14 @@ class Showtimes(Resource):
         else:
             data['title']=movie
             data['data']=response
+            return data,200
 
         if response == []:
             response=self.getShowTime(self.stripSpecialCharsWithSpace(movie))
         else:
             data['title']=self.stripSpecialChars(movie)
             data['data']=response
+            return data,200
 
         if response != []:
             data['title']=self.stripSpecialCharsWithSpace(movie)
