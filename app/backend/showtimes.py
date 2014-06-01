@@ -59,6 +59,7 @@ class Showtimes(Resource):
                 theatre['address']=x.find("div",{"class":"address"}).text
                 theatre['shows']=x.find("div",{"class":"times"}).text.replace("&#8206;","").split("&nbsp;")
                 response.append(theatre)
+        return response
 
     def stripSpecialChars(self,movie):
         return ''.join(e for e in movie if e.isalnum() or e.isspace())
