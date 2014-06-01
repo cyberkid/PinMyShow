@@ -18,6 +18,29 @@ logger = logging.getLogger(__name__)
 
 class Showtimes(Resource):
     def get(self,movie):
+        data={}
+
+        response= self.getShowTime(movie);
+
+        if response == []:
+            response=self.getShowTime(self.stripSpecialChars(movie))
+        else:
+            data['title']=movie
+            data['data']=response
+
+        if response == []:
+            response=self.getShowTime(self.stripSpecialCharsWithSpace(movie))
+        else:
+            data['title']=self.stripSpecialChars(movie)
+            data['data']=response
+
+        if response != []:
+            data['title']=self.stripSpecialCharsWithSpace(movie)
+            data['data']=response
+
+        return data,200
+
+    def getShowTime(self,movie):
         url="http://www.google.com/movies?near=bangalore&q="+movie;
         resp=requests.get(url)
         content=re.findall(r"\<div\>.*\<\/div\>",resp.content)
@@ -34,7 +57,18 @@ class Showtimes(Resource):
                 theatre['address']=x.find("div",{"class":"address"}).text
                 theatre['shows']=x.find("div",{"class":"times"}).text.replace("&#8206;","").split("&nbsp;")
                 response.append(theatre)
-        return response,200
+
+    def stripSpecialChars(self,movie):
+        return ''.join(e for e in movie if e.isalnum() or e.isspace())
+
+    def stripSpecialCharsWithSpace(self,movie):
+        s=''
+        for e in movie:
+            if e.isalnum or e.isspace():
+                s=s+e
+            else:
+                s=s+" "
+        return s
 
 
 
