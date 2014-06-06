@@ -165,14 +165,14 @@ class Search(Resource):
         try:
             limit = request.args.get('limit')
             page = request.args.get('page')
-            #ts = request.args.get('ts')
-            #signature = request.args.get('signature')
+            ts = request.args.get('ts')
+            signature = request.args.get('signature')
 
-            #if ts == None or signature == None or limit == None:
-            #    return {'status': 400, 'message': 'Bad Request'}, 400
+            if ts == None or signature == None or limit == None:
+                return {'status': 400, 'message': 'Bad Request'}, 400
 
-            #if ts_signature_validation(ts, signature) == False:
-            #    return {'status': 401, 'message': 'Invalid signature'}, 401
+            if ts_signature_validation(ts, signature) == False:
+                return {'status': 401, 'message': 'Invalid signature'}, 401
 
             search_result = rt_search(search_string, limit, page)
             response = {}
@@ -190,14 +190,14 @@ class BoxOffice(Resource):
     def get(self):
         try:
             limit = request.args.get('limit')
-            """ts = request.args.get('ts')
+            ts = request.args.get('ts')
             signature = request.args.get('signature')
 
             if ts == None or signature == None or limit == None:
                 return {'status': 400, 'message': 'Bad Request'}, 400
 
             if ts_signature_validation(ts, signature) == False:
-                return {'status': 401, 'message': 'Invalid signature'}, 401"""
+                return {'status': 401, 'message': 'Invalid signature'}, 401
 
             search_result = rt_boxoffice(limit)
             response = {}
@@ -216,14 +216,14 @@ class Upcoming(Resource):
         try:
             limit = request.args.get('limit')
             page = request.args.get('page')
-            """ts = request.args.get('ts')
+            ts = request.args.get('ts')
             signature = request.args.get('signature')
 
             if ts == None or signature == None or limit == None or page == None:
                 return {'status': 400, 'message': 'Bad Request'}, 400
 
             if ts_signature_validation(ts, signature) == False:
-                return {'status': 401, 'message': 'Invalid signature'}, 401"""
+                return {'status': 401, 'message': 'Invalid signature'}, 401
 
             search_result = rt_upcoming(limit, page)
             response = {}
