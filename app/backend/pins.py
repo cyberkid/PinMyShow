@@ -19,9 +19,6 @@ handler = SentryHandler(client)
 setup_logging(handler)
 logger = logging.getLogger(__name__)
 
-latitude=None
-longitude=None
-
 class PinMovie(Resource):
     def post(self):
         request_params = request.get_json()
@@ -109,10 +106,6 @@ class UnPin(Resource):
 class MyPins(Resource):
     def post(self):
         request_params = request.get_json()
-        
-        global latitude = None
-        global longitude = None
-
         try:
             access_token = request_params['access_token']
             latitude=request_params['latitude']

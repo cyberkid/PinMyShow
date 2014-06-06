@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask import request
 import requests
-
+import re
 from BeautifulSoup import BeautifulSoup
 
 from raven.handlers.logging import SentryHandler

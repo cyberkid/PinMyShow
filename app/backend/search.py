@@ -8,7 +8,6 @@ from actions import store_movies, store_one_movie,ts_signature_validation
 from config import Config
 
 from showtimes import getShowTime
-from pins import latitude,longitude
 
 from raven.handlers.logging import SentryHandler
 from raven import Client
@@ -22,7 +21,7 @@ setup_logging(handler)
 logger = logging.getLogger(__name__)
 
 
-def get_detailed_movies(movies,latitude,longitude):
+def get_detailed_movies(movies,latitude=None,longitude=None):
     rt_imgage_default = "http://images.rottentomatoescdn.com/images/redesign/poster_default.gif"
     pms_image_default = "http://54.187.114.0/poster_default.jpeg"
 
