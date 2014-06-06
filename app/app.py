@@ -16,16 +16,16 @@ api = restful.Api(app)
 sentry = Sentry(app,dsn='https://c08e468ddcf148d3bed9966345bdb7f4:5c4227f8d4fd4b1e94d01ebe03e29883@app.getsentry.com/23855')
 
 api.add_resource(RegisterUser, '/users/')
+api.add_resource(PinMovie, '/pin/')
 api.add_resource(Search, '/search/<string:search_string>/')
 #api.add_resource(Trailers, '/trailers/<string:search_string>/')
 api.add_resource(Upcoming, '/upcoming/')
 api.add_resource(BoxOffice, '/boxoffice/')
-api.add_resource(PinMovie, '/pin/')
 api.add_resource(MyPins, '/mypins/')
 api.add_resource(UnPin, '/unpin/')
 api.add_resource(GCMClient, '/gcm/')
 api.add_resource(Trailer, '/trailers/<string:search_string>/')
-api.add_resource(Showtimes, '/showtimes/<string:movie>/')
+#api.add_resource(Showtimes, '/showtimes/<string:movie>/')
 
 if __name__ == '__main__':
     app.run(debug=True)

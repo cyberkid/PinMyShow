@@ -1,19 +1,18 @@
+import logging
+
 from flask import request
 from flask_restful import Resource
 
 from rt import rt_search, rt_boxoffice, rt_upcoming
 from trakt import trakt_get_data
 from omdb import omdb_get_data
-from actions import store_movies, store_one_movie,ts_signature_validation
+from actions import store_movies, store_one_movie, ts_signature_validation
 from config import Config
-
 from showtimes import getShowTime
-
 from raven.handlers.logging import SentryHandler
 from raven import Client
 from raven.conf import setup_logging
-import logging
-import json
+
 
 client = Client('https://c08e468ddcf148d3bed9966345bdb7f4:5c4227f8d4fd4b1e94d01ebe03e29883@app.getsentry.com/23855')
 handler = SentryHandler(client)
@@ -21,7 +20,7 @@ setup_logging(handler)
 logger = logging.getLogger(__name__)
 
 
-def get_detailed_movies(movies,latitude=None,longitude=None):
+def get_detailed_movies(movies, latitude=None, longitude=None):
     rt_imgage_default = "http://images.rottentomatoescdn.com/images/redesign/poster_default.gif"
     pms_image_default = "http://54.187.114.0/poster_default.jpeg"
 
@@ -48,15 +47,9 @@ def get_detailed_movies(movies,latitude=None,longitude=None):
             try:
                 item['title'] = movie['title']
                 try:
-                    req=getShowTime(item['title'],latitude,longitude) 
-                    item['shows']=[]
-                    for show in req:
-                        item['shows'].append(show)
-
-                        '''The item['shows'][j] will give you one set of theater having shows'''
-                except KeyError:
+                    item['shows'] = getShowTime(item['title'], latitude, longitude)
+                except Exception:
                     pass
-                        
             except KeyError:
                 pass
             try:
@@ -89,17 +82,16 @@ def get_detailed_movies(movies,latitude=None,longitude=None):
                 else:
                     item['images']['original'] = movie['posters']['original']
 
-
                 item['images']['poster'] = tmp['omdb']['Poster']
                 item['images']['fanart'] = tmp['trakt']['images']['fanart']
             except KeyError:
                 pass
 
             if item['images']['thumbnail'] == None:
-                 item['images']['fanart'] = pms_image_default
+                item['images']['fanart'] = pms_image_default
 
             if item['images']['poster'] == None:
-                   item['images']['poster'] = pms_image_default
+                item['images']['poster'] = pms_image_default
             try:
                 item['release_dates'] = {}
                 item['release_dates']['theater'] = movie[
@@ -173,14 +165,14 @@ class Search(Resource):
         try:
             limit = request.args.get('limit')
             page = request.args.get('page')
-            ts=request.args.get('ts')
-            signature=request.args.get('signature')
+            ts = request.args.get('ts')
+            signature = request.args.get('signature')
 
-            if ts == None or signature== None or limit==None:
-                return {'status':400,'message':'Bad Request'},400
+            if ts == None or signature == None or limit == None:
+                return {'status': 400, 'message': 'Bad Request'}, 400
 
-            if ts_signature_validation(ts,signature) == False:
-                return {'status':401,'message':'Invalid signature'},401
+            if ts_signature_validation(ts, signature) == False:
+                return {'status': 401, 'message': 'Invalid signature'}, 401
 
             search_result = rt_search(search_string, limit, page)
             response = {}
@@ -198,14 +190,14 @@ class BoxOffice(Resource):
     def get(self):
         try:
             limit = request.args.get('limit')
-            ts=request.args.get('ts')
-            signature=request.args.get('signature')
+            ts = request.args.get('ts')
+            signature = request.args.get('signature')
 
-            if ts == None or signature== None or limit==None:
-                return {'status':400,'message':'Bad Request'},400
+            if ts == None or signature == None or limit == None:
+                return {'status': 400, 'message': 'Bad Request'}, 400
 
-            if ts_signature_validation(ts,signature) == False:
-                return {'status':401,'message':'Invalid signature'},401
+            if ts_signature_validation(ts, signature) == False:
+                return {'status': 401, 'message': 'Invalid signature'}, 401
 
             search_result = rt_boxoffice(limit)
             response = {}
@@ -224,14 +216,14 @@ class Upcoming(Resource):
         try:
             limit = request.args.get('limit')
             page = request.args.get('page')
-            ts=request.args.get('ts')
-            signature=request.args.get('signature')
+            ts = request.args.get('ts')
+            signature = request.args.get('signature')
 
-            if ts == None or signature== None or limit==None or page==None:
-                return {'status':400,'message':'Bad Request'},400
+            if ts == None or signature == None or limit == None or page == None:
+                return {'status': 400, 'message': 'Bad Request'}, 400
 
-            if ts_signature_validation(ts,signature) == False:
-                return {'status':401,'message':'Invalid signature'},401
+            if ts_signature_validation(ts, signature) == False:
+                return {'status': 401, 'message': 'Invalid signature'}, 401
 
             search_result = rt_upcoming(limit, page)
             response = {}

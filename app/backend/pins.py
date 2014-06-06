@@ -1,23 +1,23 @@
+import logging
+
 from flask import request
 from flask_restful import Resource
-
-from config import Config
 from pymongo import MongoClient
 
+from config import Config
 from rt import rt_movie_info
-from actions import db_lookup_movies, access_token_validation,emailFromAccessToken
-
+from actions import access_token_validation, emailFromAccessToken
 from search import get_detailed_movies
-
 from raven.handlers.logging import SentryHandler
 from raven import Client
 from raven.conf import setup_logging
-import logging
+
 
 client = Client('https://c08e468ddcf148d3bed9966345bdb7f4:5c4227f8d4fd4b1e94d01ebe03e29883@app.getsentry.com/23855')
 handler = SentryHandler(client)
 setup_logging(handler)
 logger = logging.getLogger(__name__)
+
 
 class PinMovie(Resource):
     def post(self):
@@ -38,9 +38,9 @@ class PinMovie(Resource):
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
 
-        email=emailFromAccessToken(access_token)
+        email = emailFromAccessToken(access_token)
         if email == None:
-            logger.error("PinMovies email not found for access_token='"+access_token+"'")
+            logger.error("PinMovies email not found for access_token='" + access_token + "'")
             return {'status': 501, 'message': 'Email not found for access token'}, 501
 
         user = collection.find_one({'email': email})
@@ -79,9 +79,9 @@ class UnPin(Resource):
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
 
-        email=emailFromAccessToken(access_token)
+        email = emailFromAccessToken(access_token)
         if email == None:
-            logger.error("PinMovies email not found for access_token='"+access_token+"'")
+            logger.error("PinMovies email not found for access_token='" + access_token + "'")
             return {'status': 501, 'message': 'Email not found for access token'}, 501
 
         user = collection.find_one({'email': email})
@@ -108,13 +108,12 @@ class MyPins(Resource):
         request_params = request.get_json()
         try:
             access_token = request_params['access_token']
-            latitude=request_params['latitude']
-            longitude=request_params['longitude']
+            latitude = request_params['latitude']
+            longitude = request_params['longitude']
         except KeyError:
             return {'status': 400, 'message': 'Bad Request'}, 400
         except TypeError:
             return {'status': 400, 'message': 'Bad Request'}, 400
-
 
         if access_token == None:
             return {'status': 400, 'message': 'Bad Request'}, 400
@@ -125,9 +124,9 @@ class MyPins(Resource):
         db = client[Config.DB_PMS]
         collection = db[Config.COLLECTION_USERS]
 
-        email=emailFromAccessToken(access_token)
+        email = emailFromAccessToken(access_token)
         if email == None:
-            logger.error("PinMovies email not found for access_token='"+access_token+"'")
+            logger.error("PinMovies email not found for access_token='" + access_token + "'")
             return {'status': 501, 'message': 'Email not found for access token'}, 501
 
         user = collection.find_one({'email': email})
@@ -136,7 +135,7 @@ class MyPins(Resource):
         try:
             for pin in user['pins']:
                 mylist.append(rt_movie_info(pin))
-            mypins = get_detailed_movies(mylist,latitude,longitude)
+            mypins = get_detailed_movies(mylist, latitude, longitude)
             response = {}
             response['data'] = {}
             response['data']['movies'] = mypins

@@ -1,9 +1,11 @@
+import json
+
 import requests
 from pymongo import MongoClient
-import json
+import requests_cache
+
 from config import Config
 
-import requests_cache
 
 requests_cache.install_cache('test_cache', backend='mongodb', expire_after=300)
 

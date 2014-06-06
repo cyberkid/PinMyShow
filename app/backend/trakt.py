@@ -1,7 +1,7 @@
 import json
+import random
 
 import requests
-import random
 from pymongo import MongoClient
 
 from config import Config
@@ -11,7 +11,7 @@ from actions import store_one_movie
 def trakt_create_user(email_id, retry):
     url = 'http://api.trakt.tv/account/create/' + Config.API_KEY_TRAKT
     if retry:
-        username = email_id.split("@")[0]+random.randint(1111, 9999)
+        username = email_id.split("@")[0] + random.randint(1111, 9999)
     else:
         username = email_id.split("@")[0]
     password = trakt_get_sha1_passwd(email_id)

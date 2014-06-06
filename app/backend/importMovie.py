@@ -1,13 +1,13 @@
 import sys
+import time
 
 from omdb import *
 from trakt import *
-import time
 
 
 def import_movie(start, offset):
     successfile = open("imported", 'w')
-    print "start=", start, "end=", int(start) + int(offset)-1
+    print "start=", start, "end=", int(start) + int(offset) - 1
     for x in range(int(start), int(start) + int(offset)):
         zeroes = 7 - len(str(x))
         extra = ""
