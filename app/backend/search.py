@@ -7,7 +7,7 @@ from omdb import omdb_get_data
 from actions import store_movies, store_one_movie,ts_signature_validation
 from config import Config
 
-import showtimes
+from showtimes import Showtimes
 
 from raven.handlers.logging import SentryHandler
 from raven import Client
@@ -48,10 +48,10 @@ def get_detailed_movies(movies):
             try:
                 item['title'] = movie['title']
                 try:
-                    r=onlyShowTimings(item['title']) 
+                    req=getShowTime(item['title']) 
                     item['shows']=[]
-                    for i in r:
-                        item['shows'].append(i)
+                    for show in req:
+                        item['shows'].append(show)
 
                         '''The item['shows'][j] will give you one set of theater having shows'''
                 except KeyError:

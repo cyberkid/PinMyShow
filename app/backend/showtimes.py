@@ -42,7 +42,7 @@ class Showtimes(Resource):
         return data,200
 
     def getShowTime(self,movie):
-        url="http://www.google.com/movies?near=bangalore&q="+movie;
+        url="http://www.google.com/movies?ll=12.1234,77.7342&q="+movie;
         resp=requests.get(url)
         content=re.findall(r"\<div\>.*\<\/div\>",resp.content)
         soup =BeautifulSoup(content[0])
@@ -54,29 +54,9 @@ class Showtimes(Resource):
             for x in theatres:
                 theatre={}
                 theatre["name"]=x.find("div",{"class":"name"}).text
-                theatre['link']="http://www.google.com"+x.a.get('href')
                 theatre['address']=x.find("div",{"class":"address"}).text
                 theatre['shows']=x.find("div",{"class":"times"}).text.replace("&#8206;","").split("&nbsp;")
                 response.append(theatre)
-        return response
-
-    def onlyShowTimings(self,movie):
-        url="http://www.google.com/movies?ll=12.1234,77.7342&q="+movie;
-        resp=requests.get(url)
-        content=re.findall(r"\<div\>.*\<\/div\>",resp.content)
-        soup =BeautifulSoup(content[0])
-        result=soup.find(id="movie_results")
-        
-        response=[]
-        if result != None:
-            theatres=result.findAll("div",{"class":"theater"})
-            for x in theatres:
-                theatre={}
-                theatre['name']=x.find("div",{"class":"name"}).text
-                theatre['address']=x.find("div",{"class":"address"}).text
-                theatre['times']=x.find("div",{"class":"times"}).text.replace("&#8206;","").split("&nbsp;")
-                response.append(theatre)
-            
         return response
 
     def stripSpecialChars(self,movie):
