@@ -7,10 +7,13 @@ from omdb import omdb_get_data
 from actions import store_movies, store_one_movie,ts_signature_validation
 from config import Config
 
+import showtimes
+
 from raven.handlers.logging import SentryHandler
 from raven import Client
 from raven.conf import setup_logging
 import logging
+import json
 
 client = Client('https://c08e468ddcf148d3bed9966345bdb7f4:5c4227f8d4fd4b1e94d01ebe03e29883@app.getsentry.com/23855')
 handler = SentryHandler(client)
@@ -44,6 +47,16 @@ def get_detailed_movies(movies):
                 pass
             try:
                 item['title'] = movie['title']
+                try:
+                    r=onlyShowTimings(item['title']) 
+                    item['shows']=[]
+                    for i in r:
+                        item['shows'].append(i)
+
+                        '''The item['shows'][j] will give you one set of theater having shows'''
+                except KeyError:
+                    pass
+                        
             except KeyError:
                 pass
             try:

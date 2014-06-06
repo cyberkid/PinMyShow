@@ -3,7 +3,6 @@ from flask import request
 import requests
 
 from BeautifulSoup import BeautifulSoup
-import re
 
 from raven.handlers.logging import SentryHandler
 from raven import Client
@@ -61,16 +60,33 @@ class Showtimes(Resource):
                 response.append(theatre)
         return response
 
+    def onlyShowTimings(self,movie):
+        url="http://www.google.com/movies?ll=12.1234,77.7342&q="+movie;
+        resp=requests.get(url)
+        content=re.findall(r"\<div\>.*\<\/div\>",resp.content)
+        soup =BeautifulSoup(content[0])
+        result=soup.find(id="movie_results")
+        
+        response=[]
+        if result != None:
+            theatres=result.findAll("div",{"class":"theater"})
+            for x in theatres:
+                theatre={}
+                theatre['name']=x.find("div",{"class":"name"}).text
+                theatre['address']=x.find("div",{"class":"address"}).text
+                theatre['times']=x.find("div",{"class":"times"}).text.replace("&#8206;","").split("&nbsp;")
+                response.append(theatre)
+            
+        return response
+
     def stripSpecialChars(self,movie):
         return ''.join(e for e in movie if e.isalnum() or e.isspace())
 
     def stripSpecialCharsWithSpace(self,movie):
         s=''
         for e in movie:
-            if e.isalnum or e.isspace():
+            if e.isalnum() or e.isspace():
                 s=s+e
-            else:
-                s=s+" "
         return s
 
 
