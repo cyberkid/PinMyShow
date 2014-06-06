@@ -24,14 +24,14 @@ logger = logging.getLogger(__name__)
 class RegisterUser(Resource):
     def post(self):
         request_params = request.get_json()
-        try:
-            email_id = request_params['email']
-            #auth_token = request_params['auth_token']
-            gcm_id = request_params['gcm_id']
-        except KeyError:
-            return {'status': 401, 'message': 'Access Unauthorized'}, 401
-        except TypeError:
-            return {'status': 400, 'message': 'Bad Request'}, 400
+        #try:
+        #    email_id = request_params['email']
+        #    auth_token = request_params['auth_token']
+        #    gcm_id = request_params['gcm_id']
+        #except KeyError:
+        #    return {'status': 401, 'message': 'Access Unauthorized'}, 401
+        #except TypeError:
+        #    return {'status': 400, 'message': 'Bad Request'}, 400
 
         #if email_id == None or auth_token == None:
         #    return {'status': 401, 'message': 'Access Unauthorized'}, 401
