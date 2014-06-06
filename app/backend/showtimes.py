@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask import request
 import requests
-
+import re
 from BeautifulSoup import BeautifulSoup
 
 from raven.handlers.logging import SentryHandler
@@ -14,8 +14,8 @@ handler = SentryHandler(client)
 setup_logging(handler)
 logger = logging.getLogger(__name__)
 
-def getShowTime(self,movie):
-    url="http://www.google.com/movies?ll=12.1234,77.7342&q="+movie;
+def getShowTime(movie,latitude,longitude):
+    url="http://www.google.com/movies?ll={0},{1}&q={2}".format(latitude,longitude,movie)
     resp=requests.get(url)
     content=re.findall(r"\<div\>.*\<\/div\>",resp.content)
     soup =BeautifulSoup(content[0])
@@ -28,6 +28,6 @@ def getShowTime(self,movie):
             theatre={}
             theatre["name"]=x.find("div",{"class":"name"}).text
             theatre['address']=x.find("div",{"class":"address"}).text
-            theatre['shows']=x.find("div",{"class":"times"}).text.replace("&#8206;","").split("&nbsp;")
+            theatre['time']=x.find("div",{"class":"times"}).text.replace("&#8206;","").split("&nbsp;")
             response.append(theatre)
     return response
