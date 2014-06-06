@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 def getShowTime(movie, latitude, longitude):
-    url = "http://www.google.com/movies?ll={0},{1}&q={2}".format(latitude, longitude, movie)
+    url = "http://www.google.com/movies?near={0},{1}&q={2}".format(latitude, longitude, movie)
     resp = requests.get(url)
     content = re.findall(r"\<div\>.*\<\/div\>", resp.content)
     soup = BeautifulSoup(content[0])
