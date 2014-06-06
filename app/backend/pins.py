@@ -19,6 +19,9 @@ handler = SentryHandler(client)
 setup_logging(handler)
 logger = logging.getLogger(__name__)
 
+latitude=None
+longitude=None
+
 class PinMovie(Resource):
     def post(self):
         request_params = request.get_json()
@@ -106,8 +109,14 @@ class UnPin(Resource):
 class MyPins(Resource):
     def post(self):
         request_params = request.get_json()
+        
+        global latitude = None
+        global longitude = None
+
         try:
             access_token = request_params['access_token']
+            latitude=request_params['latitude']
+            longitude=request_params['longitude']
         except KeyError:
             return {'status': 400, 'message': 'Bad Request'}, 400
         except TypeError:
@@ -134,7 +143,7 @@ class MyPins(Resource):
         try:
             for pin in user['pins']:
                 mylist.append(rt_movie_info(pin))
-            mypins = get_detailed_movies(mylist)
+            mypins = get_detailed_movies(mylist,latitude,longitude)
             response = {}
             response['data'] = {}
             response['data']['movies'] = mypins
