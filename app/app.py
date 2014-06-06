@@ -5,7 +5,6 @@ from backend.search import Search
 from backend.search import BoxOffice
 from backend.search import Upcoming
 from backend.trailer import Trailers,Trailer
-from backend.showtimes import Showtimes
 from backend.pins import PinMovie, MyPins, UnPin
 from backend.gcmclient import GCMClient
 from raven.contrib.flask import Sentry
